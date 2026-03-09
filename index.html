@@ -59,6 +59,12 @@ body.post-hero.hov #cd{background:var(--terra);opacity:.65}
 .hero-intro__subtitle-main{font-family:var(--serif);font-size:clamp(17px,1.7vw,23px);font-weight:400;color:rgba(236,232,218,.65);line-height:1.3}
 .hero-intro__subtitle-main em{font-style:italic}
 .hero-intro__subtitle-detail{font-family:var(--sans);font-size:13px;font-weight:300;letter-spacing:.01em;color:rgba(236,232,218,.28);line-height:1.65;margin-top:5px}
+.hero-cta-row{display:flex;align-items:center;gap:14px;margin-top:22px;flex-wrap:wrap;}
+.hero-btn{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:13px 26px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background .2s,transform .15s;}
+.hero-btn--primary{background:var(--terra);color:var(--cream);border:none;}
+.hero-btn--primary:hover{background:#9c3d14;transform:translateY(-2px);}
+.hero-btn--ghost{background:transparent;color:rgba(236,232,218,.65);border:1.5px solid rgba(236,232,218,.22);}
+.hero-btn--ghost:hover{border-color:rgba(236,232,218,.55);color:var(--cream);transform:translateY(-2px);}
 .sec-eye{font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--terra);margin-bottom:14px;display:block}
 .sec-h{font-family:var(--serif);font-size:clamp(52px,7vw,100px);font-weight:300;letter-spacing:-.025em;line-height:.88;color:var(--ink)}
 .rv{opacity:0;transition:opacity .9s,transform .9s cubic-bezier(.16,1,.3,1)}
@@ -226,6 +232,10 @@ footer{background:var(--terra);position:relative;overflow:hidden}
       <div class="hero-intro__subtitle" id="h-sub" style="opacity:0;transform:translateX(80px)">
         <span class="hero-intro__subtitle-main">Athlete mindset,&nbsp;<em>honed.</em></span>
         <span class="hero-intro__subtitle-detail">The psychology of peak performance — pressure, focus, and everything in between.</span>
+        <div class="hero-cta-row">
+          <a href="#contact" class="hero-btn hero-btn--primary">New Client &rarr;</a>
+          <a href="https://calendar.app.google/1gXJJ1q5vgfRHM2h8-" target="_blank" rel="noopener" class="hero-btn hero-btn--ghost">Already a Client &rarr;</a>
+        </div>
       </div>
     </div>
   </div>
@@ -403,23 +413,29 @@ footer{background:var(--terra);position:relative;overflow:hidden}
       <p class="cdesc rv fl d2">Whether you're an athlete, coach, parent, or team — start with a conversation.</p>
       <div style="margin-top:44px;padding-top:24px;border-top:1px solid rgba(30,26,22,.07)" class="rv fl d3">
         <span class="flbl">Or email directly</span>
-        <a href="mailto:hello@mindatplay.in" style="font-family:var(--serif);font-size:20px;font-weight:300;color:rgba(30,26,22,.42);text-decoration:none;transition:color .2s" onmouseenter="this.style.color='var(--ink)'" onmouseleave="this.style.color='rgba(30,26,22,.42)'">hello@mindatplay.in</a>
+        <a href="mailto:Mindatplay.8@gmail.com" style="font-family:var(--serif);font-size:20px;font-weight:300;color:rgba(30,26,22,.42);text-decoration:none;transition:color .2s" onmouseenter="this.style.color='var(--ink)'" onmouseleave="this.style.color='rgba(30,26,22,.42)'">Mindatplay.8@gmail.com</a>
       </div>
     </div>
     <div class="rv fr d2">
-      <div style="font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(30,26,22,.2);margin-bottom:14px">I am —</div>
-      <div class="chips">
-        <button class="chip on" onclick="chp(this)">An Athlete</button>
-        <button class="chip" onclick="chp(this)">A Parent</button>
-        <button class="chip" onclick="chp(this)">A Coach</button>
-        <button class="chip" onclick="chp(this)">A Team</button>
-      </div>
-      <div class="frow2">
-        <div class="fg"><label class="flbl">Name</label><input class="fin" type="text" placeholder="Your name"/></div>
-        <div class="fg"><label class="flbl">Email</label><input class="fin" type="email" placeholder="your@email.com"/></div>
-      </div>
-      <div class="fg"><label class="flbl">Sport & what you're working on</label><textarea class="fin" rows="3" placeholder="Tell us a little…" style="resize:none"></textarea></div>
-      <button class="fsub">Send message →</button>
+      <form id="contact-form" action="https://formsubmit.co/Mindatplay.8@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="New enquiry — Mind at Play"/>
+        <input type="hidden" name="_captcha" value="false"/>
+        <input type="hidden" name="_template" value="table"/>
+        <input type="hidden" name="I am" id="chip-val" value="An Athlete"/>
+        <div style="font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(30,26,22,.2);margin-bottom:14px">I am —</div>
+        <div class="chips">
+          <button type="button" class="chip on" onclick="chp(this)">An Athlete</button>
+          <button type="button" class="chip" onclick="chp(this)">A Parent</button>
+          <button type="button" class="chip" onclick="chp(this)">A Coach</button>
+          <button type="button" class="chip" onclick="chp(this)">A Team</button>
+        </div>
+        <div class="frow2">
+          <div class="fg"><label class="flbl">Name</label><input class="fin" type="text" name="Name" placeholder="Your name" required/></div>
+          <div class="fg"><label class="flbl">Email</label><input class="fin" type="email" name="Email" placeholder="your@email.com" required/></div>
+        </div>
+        <div class="fg"><label class="flbl">Sport &amp; what you're working on</label><textarea class="fin" name="Message" rows="3" placeholder="Tell us a little…" style="resize:none" required></textarea></div>
+        <button type="submit" class="fsub">Send message &rarr;</button>
+      </form>
     </div>
   </div>
 </section>
@@ -611,7 +627,7 @@ window.addEventListener('scroll',onScroll,{passive:true});
 window.addEventListener('resize',onScroll);
 onScroll();
 
-function chp(b){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));b.classList.add('on')}
+function chp(b){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));b.classList.add('on');var v=document.getElementById('chip-val');if(v)v.value=b.textContent.trim();}
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}});
 });
