@@ -11,7 +11,8 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--terra:#B8491A;--cream:#ECE8DA;--ink:#1E1A16;--hero-green:#263226;--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--rail-w:160px;--bar-h:52px;--headline-h:300px;}
 html{scroll-behavior:auto}
-body{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow-x:hidden;cursor:none;}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);cursor:none;}
+#page-wrap,#hero-outer{overflow-x:clip;}
 #cur{position:fixed;z-index:9999;pointer-events:none;top:0;left:0}
 #cd{position:absolute;width:8px;height:8px;background:var(--cream);border-radius:50%;transform:translate(-50%,-50%);transition:width .28s,height .28s,background .28s}
 #cr{position:absolute;width:30px;height:30px;border:1px solid rgba(236,232,218,.28);border-radius:50%;transform:translate(-50%,-50%);transition:width .4s,height .4s,border-color .25s}
@@ -189,6 +190,15 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
 .fleg{font-family:var(--sans);font-size:10px;color:rgba(236,232,218,.28);letter-spacing:.04em}
 .fleg a{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(236,232,218,.28);text-decoration:none;margin-left:20px;transition:color .2s}
 .fleg a:hover{color:rgba(236,232,218,.7)}
+
+/* ─── HERO EXIT / PAGE ENTER ANIMATION ─── */
+.hero-intro__frame{will-change:opacity,filter,transform;}
+#page-wrap{opacity:0;transform:translateY(72px) scale(0.97);will-change:opacity,transform;}
+#page-wrap.page-in{opacity:1;transform:none;transition:opacity 1.1s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.34,1.56,.64,1);}
+#page-wrap.page-in #sidenav .snav-brand{animation:navSlide .65s .08s cubic-bezier(.16,1,.3,1) both}
+#page-wrap.page-in #sidenav .snav-links{animation:navSlide .65s .18s cubic-bezier(.16,1,.3,1) both}
+#page-wrap.page-in #sidenav .snav-copy{animation:navSlide .65s .3s cubic-bezier(.16,1,.3,1) both}
+@keyframes navSlide{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -230,7 +240,7 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
         <span class="hero-intro__subtitle-detail">The psychology of peak performance — pressure, focus, and everything in between.</span>
         <div class="hero-cta-row">
           <a href="#contact" class="hero-btn hero-btn--primary">New Client &rarr;</a>
-          <a href="https://calendar.app.google/1gXJJ1q5vgfRHM2h8-" target="_blank" rel="noopener" class="hero-btn hero-btn--ghost">Already a Client &rarr;</a>
+          <a href="https://calendar.app.google/1gXJJ1q5vgfRHM2h8" target="_blank" rel="noopener" class="hero-btn hero-btn--ghost">Already a Client &rarr;</a>
         </div>
       </div>
     </div>
@@ -550,7 +560,11 @@ function updateHero(){
     });
     ec.style.opacity=Math.max(0,et-se*3);ht.style.opacity=Math.max(0,tp-se*2.2);hs.style.opacity=Math.max(0,sp-se*2.2);
   }
-  document.querySelector('.hero-intro__frame').style.opacity=t>0.95?Math.max(0,1-(t-0.95)/0.05):1;
+  const hf=document.querySelector('.hero-intro__frame');
+  const exitFrac=eoc(Math.max(0,Math.min(1,(t-0.88)/0.12)));
+  hf.style.opacity=t>0.95?Math.max(0,1-(t-0.95)/0.05):1;
+  hf.style.filter=exitFrac>0?'blur('+(exitFrac*10)+'px) brightness('+(1+exitFrac*0.45)+')':'';
+  hf.style.transform=exitFrac>0?'scale('+(1+exitFrac*0.07)+')':'';
 }
 
 const SVCS=[
@@ -616,9 +630,11 @@ function updateFooter(){
 const secIds=['about','services','proc-outer','pricing','blog','contact'];
 const navLks=document.querySelectorAll('.snav-link');
 const secToNav=[0,1,1,2,3,4];
+const pageWrap=document.getElementById('page-wrap');
 function updateNav(){
   const pastHero=heroOuter.getBoundingClientRect().bottom<=0;
   document.body.classList.toggle('post-hero',pastHero);
+  if(pastHero&&!pageWrap.classList.contains('page-in'))pageWrap.classList.add('page-in');
   spb.classList.toggle('visible',pastHero);
   spb.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
   let cur=0;
