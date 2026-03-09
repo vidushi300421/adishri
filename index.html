@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--terra:#B8491A;--cream:#ECE8DA;--ink:#1E1A16;--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--rail-w:160px;--bar-h:52px;--headline-h:190px;}
+:root{--terra:#B8491A;--cream:#ECE8DA;--ink:#1E1A16;--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--rail-w:160px;--bar-h:52px;--headline-h:260px;}
 html{scroll-behavior:auto}
 body{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow-x:hidden;cursor:none;}
 #cur{position:fixed;z-index:9999;pointer-events:none;top:0;left:0}
@@ -44,22 +44,28 @@ body.post-hero.hov #cd{background:var(--terra);opacity:.65}
 .hero-intro__graph-stage{position:absolute;inset:0}
 .hero-intro__curve{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
 .hero-pill{position:absolute;display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-50%);z-index:5;pointer-events:none;}
-.hero-pill__word{background:var(--cream);color:var(--ink);border-radius:100px;padding:8px 20px;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 28px rgba(0,0,0,.14);}
+.hero-pill__word{background:var(--terra);color:var(--cream);border-radius:100px;padding:8px 20px;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 28px rgba(0,0,0,.14);}
 .hero-pill--focus .hero-pill__word{background:var(--ink);color:var(--cream);padding:11px 26px;font-size:12px}
 .hero-pill__category{margin-top:7px;font-family:var(--sans);font-size:9px;font-weight:500;letter-spacing:.1em;color:rgba(236,232,218,.34);white-space:nowrap}
 .hero-intro__axis{position:absolute;bottom:0;left:52px;right:52px;display:flex;justify-content:space-between;padding-bottom:10px;font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(236,232,218,.12);z-index:4;pointer-events:none;}
 .hero-intro__axis-y{position:absolute;left:14px;top:50%;transform:translateY(-50%) rotate(-90deg);font-family:var(--sans);font-size:8px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(236,232,218,.07);white-space:nowrap;pointer-events:none;}
 #endcue{position:absolute;opacity:0;pointer-events:none;z-index:20;display:flex;flex-direction:column;align-items:flex-start;gap:3px}
 #endcue span{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.04em;color:rgba(236,232,218,.75);white-space:nowrap}
-#h-scroll{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(236,232,218,.14);z-index:8;animation:bob 2.4s ease-in-out infinite;pointer-events:none;}
+#h-scroll{display:none;}
 @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-5px)}}
 .hero-intro__headline{flex-shrink:0;height:var(--headline-h);display:flex;flex-direction:column;justify-content:center;padding:0 52px;border-top:1px solid rgba(236,232,218,.06);z-index:6;overflow:hidden;}
-.hero-intro__title{font-family:var(--serif);font-size:clamp(34px,4.5vw,62px);font-weight:300;line-height:.9;letter-spacing:-.02em;color:var(--cream);}
+.hero-intro__title{font-family:var(--serif);font-size:clamp(49px,5vw,74px);font-weight:300;line-height:.9;letter-spacing:-.02em;color:var(--cream);}
 .hero-intro__subtitle{margin-top:14px;display:flex;flex-direction:column;gap:4px}
-.hero-intro__subtitle-main{font-family:var(--serif);font-size:clamp(14px,1.4vw,19px);font-weight:400;color:rgba(236,232,218,.65);line-height:1.3}
+.hero-intro__subtitle-main{font-family:var(--serif);font-size:clamp(17px,1.7vw,23px);font-weight:400;color:rgba(236,232,218,.65);line-height:1.3}
 .hero-intro__subtitle-main em{font-style:italic}
-.hero-intro__subtitle-detail{font-family:var(--sans);font-size:11px;font-weight:300;letter-spacing:.01em;color:rgba(236,232,218,.28);line-height:1.65;margin-top:5px}
-.sec-eye{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:rgba(30,26,22,.28);margin-bottom:14px;display:block}
+.hero-intro__subtitle-detail{font-family:var(--sans);font-size:13px;font-weight:300;letter-spacing:.01em;color:rgba(236,232,218,.28);line-height:1.65;margin-top:5px}
+.hero-cta-row{display:flex;align-items:center;gap:14px;margin-top:22px;flex-wrap:wrap;}
+.hero-btn{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:13px 26px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background .2s,transform .15s;}
+.hero-btn--primary{background:var(--terra);color:var(--cream);border:none;}
+.hero-btn--primary:hover{background:#9c3d14;transform:translateY(-2px);}
+.hero-btn--ghost{background:transparent;color:rgba(236,232,218,.65);border:1.5px solid rgba(236,232,218,.22);}
+.hero-btn--ghost:hover{border-color:rgba(236,232,218,.55);color:var(--cream);transform:translateY(-2px);}
+.sec-eye{font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--terra);margin-bottom:14px;display:block}
 .sec-h{font-family:var(--serif);font-size:clamp(52px,7vw,100px);font-weight:300;letter-spacing:-.025em;line-height:.88;color:var(--ink)}
 .rv{opacity:0;transition:opacity .9s,transform .9s cubic-bezier(.16,1,.3,1)}
 .rv.fl{transform:translateX(-50px)}.rv.fr{transform:translateX(50px)}
@@ -74,7 +80,8 @@ body.post-hero.hov #cd{background:var(--terra);opacity:.65}
 .cred-row{display:flex;align-items:baseline;gap:16px}
 .cred-n{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(30,26,22,.22);flex-shrink:0;width:24px;}
 .cred-t{font-family:var(--serif);font-size:17px;font-weight:300;color:var(--ink)}
-.about-photo{width:100%;aspect-ratio:1/1;background:rgba(30,26,22,.05);display:flex;align-items:flex-end;padding:20px;position:relative;}
+.about-photo{width:100%;aspect-ratio:1/1;background:rgba(30,26,22,.05);display:flex;align-items:flex-end;padding:20px;position:relative;border:1px solid rgba(30,26,22,.15);overflow:hidden;}
+.about-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
 .about-photo__inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
 .about-photo__label{font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(30,26,22,.28);position:relative;z-index:2;}
 #services{position:relative;min-height:100vh;background:var(--cream);overflow:hidden;padding:80px 80px 60px;display:flex;flex-direction:column}
@@ -213,10 +220,6 @@ footer{background:var(--terra);position:relative;overflow:hidden}
         <div class="hero-pill" id="hp7" style="left:86%;top:60%;opacity:0"><div class="hero-pill__word">Burnout</div><div class="hero-pill__category">The Cost</div></div>
         <div class="hero-pill" id="hp8" style="left:94%;top:75%;opacity:0"><div class="hero-pill__word">Sacrifice</div><div class="hero-pill__category">The Cost</div></div>
         <div id="endcue">
-          <svg width="56" height="48" viewBox="0 0 56 48" fill="none">
-            <path d="M52 5 C42 5, 10 14, 6 40" stroke="rgba(236,232,218,.6)" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-            <path d="M6 40 L4 30 M6 40 L15 36" stroke="rgba(236,232,218,.6)" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
           <span>We can help with this</span>
         </div>
         <div class="hero-intro__axis"><span>Low Arousal</span><span>↑ Performance ↑</span><span>High Arousal</span></div>
@@ -229,6 +232,10 @@ footer{background:var(--terra);position:relative;overflow:hidden}
       <div class="hero-intro__subtitle" id="h-sub" style="opacity:0;transform:translateX(80px)">
         <span class="hero-intro__subtitle-main">Athlete mindset,&nbsp;<em>honed.</em></span>
         <span class="hero-intro__subtitle-detail">The psychology of peak performance — pressure, focus, and everything in between.</span>
+        <div class="hero-cta-row">
+          <a href="#contact" class="hero-btn hero-btn--primary">New Client &rarr;</a>
+          <a href="https://calendar.app.google/1gXJJ1q5vgfRHM2h8-" target="_blank" rel="noopener" class="hero-btn hero-btn--ghost">Already a Client &rarr;</a>
+        </div>
       </div>
     </div>
   </div>
@@ -285,7 +292,6 @@ footer{background:var(--terra);position:relative;overflow:hidden}
   <div id="proc-nav">
     <div>
       <span class="sec-eye">How it works</span>
-      <div style="font-family:var(--serif);font-size:clamp(14px,1.4vw,18px);font-weight:300;color:rgba(30,26,22,.28);margin-top:3px">Scroll →</div>
     </div>
     <div id="proc-dots">
       <div class="pdot on"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div>
@@ -407,23 +413,29 @@ footer{background:var(--terra);position:relative;overflow:hidden}
       <p class="cdesc rv fl d2">Whether you're an athlete, coach, parent, or team — start with a conversation.</p>
       <div style="margin-top:44px;padding-top:24px;border-top:1px solid rgba(30,26,22,.07)" class="rv fl d3">
         <span class="flbl">Or email directly</span>
-        <a href="mailto:hello@mindatplay.in" style="font-family:var(--serif);font-size:20px;font-weight:300;color:rgba(30,26,22,.42);text-decoration:none;transition:color .2s" onmouseenter="this.style.color='var(--ink)'" onmouseleave="this.style.color='rgba(30,26,22,.42)'">hello@mindatplay.in</a>
+        <a href="mailto:Mindatplay.8@gmail.com" style="font-family:var(--serif);font-size:20px;font-weight:300;color:rgba(30,26,22,.42);text-decoration:none;transition:color .2s" onmouseenter="this.style.color='var(--ink)'" onmouseleave="this.style.color='rgba(30,26,22,.42)'">Mindatplay.8@gmail.com</a>
       </div>
     </div>
     <div class="rv fr d2">
-      <div style="font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(30,26,22,.2);margin-bottom:14px">I am —</div>
-      <div class="chips">
-        <button class="chip on" onclick="chp(this)">An Athlete</button>
-        <button class="chip" onclick="chp(this)">A Parent</button>
-        <button class="chip" onclick="chp(this)">A Coach</button>
-        <button class="chip" onclick="chp(this)">A Team</button>
-      </div>
-      <div class="frow2">
-        <div class="fg"><label class="flbl">Name</label><input class="fin" type="text" placeholder="Your name"/></div>
-        <div class="fg"><label class="flbl">Email</label><input class="fin" type="email" placeholder="your@email.com"/></div>
-      </div>
-      <div class="fg"><label class="flbl">Sport & what you're working on</label><textarea class="fin" rows="3" placeholder="Tell us a little…" style="resize:none"></textarea></div>
-      <button class="fsub">Send message →</button>
+      <form id="contact-form" action="https://formsubmit.co/Mindatplay.8@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="New enquiry — Mind at Play"/>
+        <input type="hidden" name="_captcha" value="false"/>
+        <input type="hidden" name="_template" value="table"/>
+        <input type="hidden" name="I am" id="chip-val" value="An Athlete"/>
+        <div style="font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(30,26,22,.2);margin-bottom:14px">I am —</div>
+        <div class="chips">
+          <button type="button" class="chip on" onclick="chp(this)">An Athlete</button>
+          <button type="button" class="chip" onclick="chp(this)">A Parent</button>
+          <button type="button" class="chip" onclick="chp(this)">A Coach</button>
+          <button type="button" class="chip" onclick="chp(this)">A Team</button>
+        </div>
+        <div class="frow2">
+          <div class="fg"><label class="flbl">Name</label><input class="fin" type="text" name="Name" placeholder="Your name" required/></div>
+          <div class="fg"><label class="flbl">Email</label><input class="fin" type="email" name="Email" placeholder="your@email.com" required/></div>
+        </div>
+        <div class="fg"><label class="flbl">Sport &amp; what you're working on</label><textarea class="fin" name="Message" rows="3" placeholder="Tell us a little…" style="resize:none" required></textarea></div>
+        <button type="submit" class="fsub">Send message &rarr;</button>
+      </form>
     </div>
   </div>
 </section>
@@ -615,7 +627,7 @@ window.addEventListener('scroll',onScroll,{passive:true});
 window.addEventListener('resize',onScroll);
 onScroll();
 
-function chp(b){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));b.classList.add('on')}
+function chp(b){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));b.classList.add('on');var v=document.getElementById('chip-val');if(v)v.value=b.textContent.trim();}
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}});
 });
