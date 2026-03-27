@@ -621,17 +621,16 @@ function getHP(){
   return Math.max(0,Math.min(1,-r.top/(heroOuter.offsetHeight-window.innerHeight)));
 }
 
-// ── PILL WAVES: 3 sharp scroll beats ──
-// Each wave occupies exactly 1/3 of the pill-scroll range (0.08 → 0.78)
-// Wave 1: t 0.08 → 0.31  pills: Anxiety, Fear, Drive
-// Wave 2: t 0.31 → 0.54  pills: Hunger, Focus, Pressure
-// Wave 3: t 0.54 → 0.78  pills: Resilience, Burnout, Sacrifice
-// Within each wave the 3 pills stagger tightly so they feel like one beat
+// ── PILL WAVES: 3 scroll beats, 3 pills each, staggered one by one ──
+// Total hero scroll range for pills: t=0.08 → t=0.75
+// Divided into 3 equal waves of ~0.22 each
+// Within each wave, pills drop at 0%, 40%, 80% of that wave's range
+// So each pill needs a meaningful scroll before the next one drops
 
 const WAVES=[
-  {s:0.08,e:0.31,p:[0,1,2]},
-  {s:0.31,e:0.54,p:[3,4,5]},
-  {s:0.54,e:0.78,p:[6,7,8]},
+  {s:0.08, e:0.30, p:[0,1,2]},
+  {s:0.30, e:0.52, p:[3,4,5]},
+  {s:0.52, e:0.75, p:[6,7,8]},
 ];
 
 function updateHero(){
@@ -646,12 +645,13 @@ function updateHero(){
   const sp=eoc(Math.max(0,Math.min(1,(t-0.04)/0.08)));
   hs.style.opacity=sp;hs.style.transform='translateX('+((1-sp)*80)+'px)';
 
-  // pills in 3 clean waves
+  // pills — 3 waves, each pill drops at its own scroll position
   WAVES.forEach(w=>{
-    const wt=Math.max(0,Math.min(1,(t-w.s)/(w.e-w.s)));
+    const span=w.e-w.s;
     w.p.forEach((idx,j)=>{
-      // each pill triggers at 0%, 33%, 66% of the wave
-      if(wt>j*0.33) dropPill(idx);
+      // pill j in this wave drops when t reaches its specific trigger point
+      const trigger=w.s + span*(j/3);
+      if(t>=trigger) dropPill(idx);
     });
   });
 
