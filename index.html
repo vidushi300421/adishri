@@ -47,13 +47,11 @@ body.post-hero.hov #cd{background:var(--terra);opacity:.65}
 .hero-pill__word{background:var(--terra);color:var(--cream);border-radius:100px;padding:8px 20px;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 28px rgba(0,0,0,.14);}
 .hero-pill--focus .hero-pill__word{background:var(--cream);color:var(--ink);padding:11px 26px;font-size:12px}
 .hero-pill__category{margin-top:7px;font-family:var(--sans);font-size:9px;font-weight:500;letter-spacing:.1em;color:rgba(236,232,218,.34);white-space:nowrap}
-/* endcue pulse on the last pill */
 @keyframes pillpulse{0%,100%{box-shadow:0 6px 28px rgba(0,0,0,.14),0 0 0 0 rgba(184,73,26,.6)}60%{box-shadow:0 6px 28px rgba(0,0,0,.14),0 0 0 14px rgba(184,73,26,0)}}
 .hero-pill--endcue .hero-pill__word{animation:pillpulse 1.5s ease-out infinite;}
 .hero-intro__axis{position:absolute;bottom:0;left:52px;right:52px;display:flex;justify-content:space-between;padding-bottom:10px;font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(236,232,218,.12);z-index:4;pointer-events:none;}
 .hero-intro__axis-y{position:absolute;left:14px;top:50%;transform:translateY(-50%) rotate(-90deg);font-family:var(--sans);font-size:8px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(236,232,218,.07);white-space:nowrap;pointer-events:none;}
 #h-scroll{display:none;}
-@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-5px)}}
 .hero-intro__headline{flex-shrink:0;height:var(--headline-h);display:flex;flex-direction:column;justify-content:center;padding:0 52px;border-top:1px solid rgba(236,232,218,.06);z-index:6;overflow:hidden;}
 .hero-intro__title{font-family:var(--serif);font-size:clamp(49px,5vw,74px);font-weight:300;line-height:.9;letter-spacing:-.02em;color:var(--cream);}
 .hero-intro__subtitle{margin-top:14px;display:flex;flex-direction:column;gap:4px}
@@ -73,8 +71,8 @@ body.post-hero.hov #cd{background:var(--terra);opacity:.65}
 .rv.fb{transform:translateY(44px)}.rv.fs{transform:scale(.92)}
 .rv.in{opacity:1!important;transform:none!important}
 .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.18s}.rv.d3{transition-delay:.28s}
-#about{padding:120px 80px 100px;position:relative;overflow:hidden}
-.about-body{display:grid;grid-template-columns:1.2fr 0.8fr;gap:80px;margin-top:52px;align-items:start;}
+#about{padding:120px 80px 60px;position:relative;overflow:hidden}
+.about-layout{display:grid;grid-template-columns:1.2fr 0.8fr;gap:80px;align-items:start;}
 .about-p{font-family:var(--serif);font-size:clamp(18px,2vw,24px);font-weight:300;line-height:1.72;color:rgba(30,26,22,.58);margin-bottom:28px;}
 .about-p em{font-style:normal;color:var(--terra)}
 .about-creds{margin-top:36px;padding-top:24px;border-top:1px solid rgba(30,26,22,.07);display:flex;flex-direction:column;gap:12px;}
@@ -84,6 +82,62 @@ body.post-hero.hov #cd{background:var(--terra);opacity:.65}
 .about-photo{width:100%;aspect-ratio:3/4;background:rgba(30,26,22,.05);display:flex;align-items:flex-end;padding:20px;position:relative;border:4px solid var(--terra);overflow:hidden;box-shadow:8px 8px 0 rgba(184,73,26,.18);}
 .about-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;}
 .about-photo__label{font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(30,26,22,.28);position:relative;z-index:2;}
+
+/* ── IN THE FIELD — CONTACT SHEET ── */
+#field{padding:100px 80px 120px;position:relative;overflow:hidden;}
+#field-bg-word{position:absolute;right:-40px;top:20px;font-family:var(--serif);font-size:clamp(160px,22vw,320px);font-weight:300;line-height:1;color:rgba(30,26,22,.03);pointer-events:none;user-select:none;z-index:1;}
+#field-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:64px;}
+#field-header-left{}
+#field-hint{font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(30,26,22,.2);display:flex;align-items:center;gap:8px;}
+#field-hint::before{content:'';display:inline-block;width:24px;height:1px;background:rgba(30,26,22,.2);}
+
+/* ── BENTO GRID ── */
+#field-sheet{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;position:relative;z-index:2;}
+.fc{position:relative;overflow:hidden;cursor:none;background:rgba(30,26,22,.06);border-radius:3px;}
+.fc img{display:block;width:100%;height:auto;filter:saturate(0) brightness(.85) contrast(1.08);transition:filter .65s cubic-bezier(.16,1,.3,1);}
+.fc:hover img{filter:saturate(1) brightness(1) contrast(1);}
+
+
+
+
+/* frame number — top left like a real contact sheet */
+.fc-num{
+  position:absolute;top:10px;left:12px;
+  font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.16em;
+  color:rgba(30,26,22,.25);z-index:4;
+  transition:opacity .3s;
+}
+.fc:hover .fc-num{opacity:0;}
+
+/* annotation — slides up on hover */
+.fc-ann{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:20px 18px 16px;
+  background:linear-gradient(to top,rgba(30,26,22,.72) 0%,transparent 100%);
+  transform:translateY(100%);
+  transition:transform .45s cubic-bezier(.16,1,.3,1);
+  z-index:4;
+}
+.fc:hover .fc-ann{transform:translateY(0);}
+.fc-ann-venue{
+  font-family:var(--sans);font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--terra);display:block;margin-bottom:4px;
+}
+.fc-ann-label{
+  font-family:var(--serif);font-size:clamp(14px,1.4vw,18px);font-weight:300;
+  color:var(--cream);line-height:1.2;display:block;
+}
+/* terra line that draws across bottom on hover */
+.fc::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--terra);transform:scaleX(0);transform-origin:left;
+  transition:transform .5s cubic-bezier(.16,1,.3,1);z-index:5;
+}
+.fc:hover::after{transform:scaleX(1);}
+
+/* thin grid lines between cells — like a real sheet */
+#field-sheet .fc{outline:1px solid rgba(30,26,22,.07);}
+
 #services{position:relative;min-height:100vh;background:var(--cream);overflow:hidden;padding:80px 80px 60px;display:flex;flex-direction:column}
 #svc-stage{position:relative;flex:1;min-height:420px;margin-top:40px}
 .sw{position:absolute;cursor:default;user-select:none;z-index:2;transform:translate(-50%,-50%)}
@@ -215,9 +269,7 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
         <div class="hero-pill" id="hp5" style="left:66%;top:26%;opacity:0"><div class="hero-pill__word">Pressure</div><div class="hero-pill__category">The Edge</div></div>
         <div class="hero-pill" id="hp6" style="left:76%;top:42%;opacity:0"><div class="hero-pill__word">Resilience</div><div class="hero-pill__category">The Edge</div></div>
         <div class="hero-pill" id="hp7" style="left:86%;top:60%;opacity:0"><div class="hero-pill__word">Burnout</div><div class="hero-pill__category">The Cost</div></div>
-        <!-- hp8 = Sacrifice, doubles as endcue — pulses once all pills land -->
         <div class="hero-pill" id="hp8" style="left:94%;top:75%;opacity:0"><div class="hero-pill__word">Sacrifice</div><div class="hero-pill__category">The Cost</div></div>
-
         <div class="hero-intro__axis"><span>Low Arousal</span><span>↑ Performance ↑</span><span>High Arousal</span></div>
         <div class="hero-intro__axis-y">Performance</div>
         <div id="h-scroll">↓ scroll to begin</div>
@@ -241,11 +293,11 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
 <nav id="sidenav">
   <a href="#" class="snav-brand">Mind<br>at Play</a>
   <div class="snav-links">
-    <a href="#about"      class="snav-link">About <span class="snav-num">I</span></a>
-    <a href="#services"   class="snav-link">Services <span class="snav-num">II</span></a>
-    <a href="#pricing"    class="snav-link">Pricing <span class="snav-num">III</span></a>
-    <a href="#blog"       class="snav-link">Writing <span class="snav-num">IV</span></a>
-    <a href="#contact"    class="snav-link">Contact <span class="snav-num">V</span></a>
+    <a href="#about"    class="snav-link">About <span class="snav-num">I</span></a>
+    <a href="#services" class="snav-link">Services <span class="snav-num">II</span></a>
+    <a href="#pricing"  class="snav-link">Pricing <span class="snav-num">III</span></a>
+    <a href="#blog"     class="snav-link">Writing <span class="snav-num">IV</span></a>
+    <a href="#contact"  class="snav-link">Contact <span class="snav-num">V</span></a>
   </div>
   <p class="snav-copy">© Mind at Play</p>
 </nav>
@@ -253,26 +305,73 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
 <div id="content-wrap" style="flex:1;min-width:0">
 
 <section id="about">
-  <span class="sec-eye rv fl">The Psychologist</span>
-  <h2 class="sec-h rv fl d1">Adishri<br>Dubey.</h2>
-  <div class="about-body">
+  <div class="about-layout">
     <div>
-      <p class="about-p rv fl d2">Adishri is a sport psychologist with an <em>M.Sc. in Sport Psychology</em>. Her work translates performance science into practical mental skills — tools athletes can use under real pressure.</p>
-      <p class="about-p rv fl d2">Mind at Play exists to give athletes a dedicated space for the psychological work that <em>performance demands</em> — not as crisis support, but as preparation.</p>
-      <div class="about-creds rv fb d3">
-        <div class="cred-row"><span class="cred-n">I</span><span class="cred-t">M.Sc. Sport Psychology</span></div>
-        <div class="cred-row"><span class="cred-n">II</span><span class="cred-t">B.Sc. Psychology</span></div>
-        <div class="cred-row"><span class="cred-n">III</span><span class="cred-t">Applied Mental Performance Practitioner</span></div>
-      </div>
-      <div class="hero-cta-row rv fb d3" style="margin-top:36px">
-        <a href="#contact" class="hero-btn hero-btn--primary">Work with Adishri &rarr;</a>
+      <span class="sec-eye rv fl">The Psychologist</span>
+      <h2 class="sec-h rv fl d1">Adishri<br>Dubey.</h2>
+      <div class="about-body" style="margin-top:52px;">
+        <p class="about-p rv fl d2">Adishri is a sport psychologist with an <em>M.Sc. in Sport Psychology</em>. Her work translates performance science into practical mental skills — tools athletes can use under real pressure.</p>
+        <p class="about-p rv fl d2">Mind at Play exists to give athletes a dedicated space for the psychological work that <em>performance demands</em> — not as crisis support, but as preparation.</p>
+        <div class="about-creds rv fb d3">
+          <div class="cred-row"><span class="cred-n">I</span><span class="cred-t">M.Sc. Sport Psychology</span></div>
+          <div class="cred-row"><span class="cred-n">II</span><span class="cred-t">B.Sc. Psychology</span></div>
+          <div class="cred-row"><span class="cred-n">III</span><span class="cred-t">Applied Mental Performance Practitioner</span></div>
+        </div>
+        <div class="hero-cta-row rv fb d3" style="margin-top:36px">
+          <a href="#contact" class="hero-btn hero-btn--primary">Work with Adishri &rarr;</a>
+        </div>
       </div>
     </div>
-    <div class="rv fr d2">
+    <div class="rv fr d1">
       <div class="about-photo">
-        <img src="https://github.com/user-attachments/assets/66c5e3a3-9b18-4068-ab4b-ef0d9015fefb" alt="Adishri Dubey" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top"/>
+        <img src="https://github.com/user-attachments/assets/66c5e3a3-9b18-4068-ab4b-ef0d9015fefb" alt="Adishri Dubey"/>
         <span class="about-photo__label">Adishri Dubey</span>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── IN THE FIELD — CONTACT SHEET ── -->
+<section id="field">
+  <div id="field-bg-word">Field.</div>
+  <div id="field-header">
+    <div id="field-header-left">
+      <span class="sec-eye rv fl">In the Field</span>
+      <p style="font-family:var(--serif);font-size:clamp(16px,1.6vw,21px);font-weight:300;color:rgba(30,26,22,.42);line-height:1.7;max-width:420px" class="rv fl d1">From the Bernabéu to the research floor —<br>sport psychology lived from the inside.</p>
+    </div>
+    <div id="field-hint" class="rv fr d2">hover to develop</div>
+  </div>
+
+  <div id="field-sheet">
+    <div class="fc rv fb">
+      <span class="fc-num">01</span>
+      <img src="https://github.com/vidushi300421/adishri/blob/main/Image1.jpg?raw=true" alt="Bernabéu, Madrid"/>
+      <div class="fc-ann"><span class="fc-ann-venue">Madrid, Spain</span><span class="fc-ann-label">Real Madrid · Bernabéu</span></div>
+    </div>
+    <div class="fc rv fb d1">
+      <span class="fc-num">02</span>
+      <img src="https://github.com/vidushi300421/adishri/blob/main/Image2.jpg?raw=true" alt="AS Roma"/>
+      <div class="fc-ann"><span class="fc-ann-venue">Rome, Italy</span><span class="fc-ann-label">AS Roma · Matchday</span></div>
+    </div>
+    <div class="fc rv fb d1">
+      <span class="fc-num">03</span>
+      <img src="https://github.com/vidushi300421/adishri/blob/main/Image3.jpg?raw=true" alt="Universidad Europea"/>
+      <div class="fc-ann"><span class="fc-ann-venue">Madrid, Spain</span><span class="fc-ann-label">Universidad Europea</span></div>
+    </div>
+    <div class="fc rv fb d2">
+      <span class="fc-num">04</span>
+      <img src="https://github.com/vidushi300421/adishri/blob/main/Image5.jpg?raw=true" alt="Research"/>
+      <div class="fc-ann"><span class="fc-ann-venue">Madrid, Spain</span><span class="fc-ann-label">Research · UE Congress</span></div>
+    </div>
+    <div class="fc rv fb d2">
+      <span class="fc-num">05</span>
+      <img src="https://github.com/vidushi300421/adishri/blob/main/Image6.jpg?raw=true" alt="Cricket"/>
+      <div class="fc-ann"><span class="fc-ann-venue">Mumbai, India</span><span class="fc-ann-label">Live Sport · Matchnight</span></div>
+    </div>
+    <div class="fc rv fb d3">
+      <span class="fc-num">06</span>
+      <img src="https://github.com/vidushi300421/adishri/blob/main/Image8.jpg?raw=true" alt="UTS London"/>
+      <div class="fc-ann"><span class="fc-ann-venue">London, UK</span><span class="fc-ann-label">UTS · Courtside</span></div>
     </div>
   </div>
 </section>
@@ -285,7 +384,7 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
   <div id="svc-stage"></div>
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:12px">
     <div id="svc-hint">hover a word</div>
-    <a href="#contact" class="hero-btn hero-btn--primary" style="background:var(--ink);color:var(--cream)">Explore Services &rarr;</a>
+    <a href="#contact" class="hero-btn hero-btn--primary">Explore Services &rarr;</a>
   </div>
 </section>
 
@@ -411,7 +510,7 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
       <p class="cdesc rv fl d2">Whether you're an athlete, coach, parent, or team — start with a conversation.</p>
       <div style="margin-top:44px;padding-top:24px;border-top:1px solid rgba(30,26,22,.07)" class="rv fl d3">
         <span class="flbl">Or email directly</span>
-        <a href="mailto:Mindatplay.8@gmail.com" style="font-family:var(--serif);font-size:20px;font-weight:300;color:rgba(30,26,22,.42);text-decoration:none;transition:color .2s" onmouseenter="this.style.color='var(--ink)'" onmouseleave="this.style.color='rgba(30,26,22,.42)'">Mindatplay.8@gmail.com</a>
+        <a href="/cdn-cgi/l/email-protection#feb397909a9f8a8e929f87d0c6be99939f9792d09d9193" style="font-family:var(--serif);font-size:20px;font-weight:300;color:rgba(30,26,22,.42);text-decoration:none;transition:color .2s" onmouseenter="this.style.color='var(--ink)'" onmouseleave="this.style.color='rgba(30,26,22,.42)'"><span class="__cf_email__" data-cfemail="e9a480878d889d99858890c7d1a98e84888085c78a8684">[email&#160;protected]</span></a>
       </div>
     </div>
     <div class="rv fr d2">
@@ -486,12 +585,12 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const CE=document.getElementById('cur');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
 (function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;CE.style.left=rx+'px';CE.style.top=ry+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('a,button,.ptab,.sw,.bcard').forEach(el=>{
+document.querySelectorAll('a,button,.ptab,.sw,.bcard,.fc').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
   el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
 });
@@ -508,32 +607,65 @@ function dropPill(i){
   const el=document.getElementById('hp'+i);if(!el)return;
   el.style.opacity='1';
   const s=performance.now(),dur=740;
-  (function f(now){const t=Math.min(1,(now-s)/dur);const b=bounce(t),e=eoc(t);el.style.transform='translate(-50%,-50%) translateY('+((1-b)*-130)+'px) rotate('+((1-e)*-9)+'deg) scale('+(0.7+0.3*e)+')';if(t<1)requestAnimationFrame(f);else el.style.transform='translate(-50%,-50%)'})(performance.now());
+  (function f(now){
+    const t=Math.min(1,(now-s)/dur);
+    const b=bounce(t),e=eoc(t);
+    el.style.transform='translate(-50%,-50%) translateY('+((1-b)*-130)+'px) rotate('+((1-e)*-9)+'deg) scale('+(0.7+0.3*e)+')';
+    if(t<1)requestAnimationFrame(f);
+    else el.style.transform='translate(-50%,-50%)';
+  })(performance.now());
 }
 
-function getHP(){const r=heroOuter.getBoundingClientRect();return Math.max(0,Math.min(1,-r.top/(heroOuter.offsetHeight-window.innerHeight)));}
+function getHP(){
+  const r=heroOuter.getBoundingClientRect();
+  return Math.max(0,Math.min(1,-r.top/(heroOuter.offsetHeight-window.innerHeight)));
+}
+
+// ── PILL WAVES: 3 sharp scroll beats ──
+// Each wave occupies exactly 1/3 of the pill-scroll range (0.08 → 0.78)
+// Wave 1: t 0.08 → 0.31  pills: Anxiety, Fear, Drive
+// Wave 2: t 0.31 → 0.54  pills: Hunger, Focus, Pressure
+// Wave 3: t 0.54 → 0.78  pills: Resilience, Burnout, Sacrifice
+// Within each wave the 3 pills stagger tightly so they feel like one beat
+
+const WAVES=[
+  {s:0.08,e:0.31,p:[0,1,2]},
+  {s:0.31,e:0.54,p:[3,4,5]},
+  {s:0.54,e:0.78,p:[6,7,8]},
+];
 
 function updateHero(){
   const t=getHP();
   document.getElementById('h-pct').textContent=String(Math.round(t*100)).padStart(2,'0')+'%';
+
+  // headline
   const ht=document.getElementById('h-title');
   const tp=eoc(Math.min(1,t/0.08));
   ht.style.opacity=tp;ht.style.transform='translateX('+((1-tp)*-80)+'px)';
   const hs=document.getElementById('h-sub');
   const sp=eoc(Math.max(0,Math.min(1,(t-0.04)/0.08)));
   hs.style.opacity=sp;hs.style.transform='translateX('+((1-sp)*80)+'px)';
-  const pr=Math.max(0,Math.min(1,(t-0.08)/(0.78-0.08)));
-  for(let i=0;i<=Math.min(8,Math.floor(pr*9));i++)dropPill(i);
+
+  // pills in 3 clean waves
+  WAVES.forEach(w=>{
+    const wt=Math.max(0,Math.min(1,(t-w.s)/(w.e-w.s)));
+    w.p.forEach((idx,j)=>{
+      // each pill triggers at 0%, 33%, 66% of the wave
+      if(wt>j*0.33) dropPill(idx);
+    });
+  });
+
+  const pr=Math.max(0,Math.min(1,(t-0.08)/0.70));
   document.getElementById('draw-curve').style.opacity=Math.min(1,pr*1.4)*0.65;
 
-  // hp8 pulses as endcue once all pills are fully shown
+  // endcue pulse
   const hp8=document.getElementById('hp8');
   if(hp8){
-    if(pr>=1&&t<0.90) hp8.classList.add('hero-pill--endcue');
+    if(t>=0.78&&t<0.90) hp8.classList.add('hero-pill--endcue');
     else hp8.classList.remove('hero-pill--endcue');
   }
 
-  // Explosion: all pills fly outward t=0.90→1.0
+  // explosion t=0.90→1.0
   const st=Math.max(0,Math.min(1,(t-0.90)/0.10));
   if(st>0){
     const se=eoc(st);
@@ -546,7 +678,7 @@ function updateHero(){
     hs.style.opacity=Math.max(0,sp-se*2.2);
   }
 
-  // Frame fade t=0.75→1.0
+  // frame fade
   document.querySelector('.hero-intro__frame').style.opacity=t<0.75?1:Math.max(0,1-(t-0.75)/0.25);
 }
 
@@ -608,9 +740,9 @@ function updateFooter(){
   bw.style.transform='translateY('+(p*80)+'px) translateX('+(-p*20)+'px)';
 }
 
-const secIds=['about','services','proc-outer','pricing','blog','contact'];
+const secIds=['about','field','services','proc-outer','pricing','blog','contact'];
 const navLks=document.querySelectorAll('.snav-link');
-const secToNav=[0,1,1,2,3,4];
+const secToNav=[0,0,1,1,2,3,4];
 function updateNav(){
   const pastHero=heroOuter.getBoundingClientRect().bottom<=0;
   document.body.classList.toggle('post-hero',pastHero);
