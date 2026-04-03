@@ -12,6 +12,40 @@
 :root{--terra:#B8491A;--cream:#ECE8DA;--ink:#1E1A16;--hero-green:#263226;--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--rail-w:160px;--bar-h:52px;--headline-h:300px;}
 html{scroll-behavior:auto}
 body{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow-x:hidden;cursor:none;}
+
+/* ── LOADING SCREEN ── */
+#loader{
+  position:fixed;inset:0;z-index:99999;
+  background:var(--hero-green);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:0;
+  transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);
+}
+#loader.out{opacity:0;pointer-events:none;transform:translateY(-12px);}
+.loader-word{
+  font-family:var(--serif);font-size:clamp(16px,2.2vw,26px);font-weight:300;
+  color:rgba(236,232,218,.72);
+  letter-spacing:.01em;line-height:1.6;
+  text-align:center;max-width:560px;padding:0 32px;
+}
+.loader-word em{font-style:italic;color:rgba(236,232,218,.95);}
+.loader-brand{
+  font-family:var(--sans);font-size:10px;font-weight:700;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(236,232,218,.35);
+  margin-top:40px;
+}
+.loader-bar-wrap{
+  width:clamp(120px,20vw,200px);height:1px;
+  background:rgba(236,232,218,.1);
+  margin-top:28px;overflow:hidden;
+}
+.loader-bar{
+  height:100%;width:0;background:var(--terra);
+  transition:width .05s linear;
+}
+
 #cur{position:fixed;z-index:9999;pointer-events:none;top:0;left:0}
 #cd{position:absolute;width:8px;height:8px;background:var(--cream);border-radius:50%;transform:translate(-50%,-50%);transition:width .28s,height .28s,background .28s}
 #cr{position:absolute;width:30px;height:30px;border:1px solid rgba(236,232,218,.28);border-radius:50%;transform:translate(-50%,-50%);transition:width .4s,height .4s,border-color .25s}
@@ -36,16 +70,16 @@ body.post-hero.hov #cd{background:var(--terra);opacity:.65}
 .snav-link::before{content:'';position:absolute;left:-24px;top:0;bottom:0;width:2px;background:var(--terra);transform:scaleY(0);transform-origin:bottom;transition:transform .2s;}
 .snav-link.on::before{transform:scaleY(1)}
 .snav-copy{font-family:var(--sans);font-size:9px;font-weight:400;color:rgba(30,26,22,.2);letter-spacing:.04em;margin-top:auto;padding-top:20px;}
-.hero-intro__frame{position:sticky;top:0;height:100vh;width:100%;overflow:hidden;background:#263226;display:flex;flex-direction:column;transition:opacity 0.2s linear;}
+.hero-intro__frame{position:sticky;top:0;height:100vh;width:100%;overflow:hidden;background:#263226;display:flex;flex-direction:column;transition:opacity 0.15s linear;}
 .hero-intro__bar{flex-shrink:0;height:var(--bar-h);display:flex;align-items:center;padding:0 52px;border-bottom:1px solid rgba(236,232,218,.07);justify-content:space-between;z-index:6;}
 .hero-intro__brand{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(236,232,218,.4);}
 #h-pct{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.18em;color:rgba(236,232,218,.18)}
-.hero-intro__graph{flex:1;max-height:46vh;position:relative;overflow:hidden;min-height:0}
-.hero-intro__graph-stage{position:absolute;inset:0}
+.hero-intro__graph{flex:1;max-height:46vh;position:relative;overflow:visible;min-height:0}
+.hero-intro__graph-stage{position:absolute;inset:0;overflow:visible}
 .hero-intro__curve{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
 .hero-pill{position:absolute;display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-50%);z-index:5;pointer-events:none;}
-.hero-pill__word{background:var(--terra);color:var(--cream);border-radius:100px;padding:8px 20px;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 28px rgba(0,0,0,.14);}
-.hero-pill--focus .hero-pill__word{background:var(--cream);color:var(--ink);padding:11px 26px;font-size:12px}
+.hero-pill__word{background:var(--terra);color:var(--cream);border-radius:100px;padding:7px 16px;font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 28px rgba(0,0,0,.14);}
+.hero-pill--focus .hero-pill__word{background:var(--cream);color:var(--ink);padding:10px 22px;font-size:11px}
 .hero-pill__category{margin-top:7px;font-family:var(--sans);font-size:9px;font-weight:500;letter-spacing:.1em;color:rgba(236,232,218,.34);white-space:nowrap}
 @keyframes pillpulse{0%,100%{box-shadow:0 6px 28px rgba(0,0,0,.14),0 0 0 0 rgba(184,73,26,.6)}60%{box-shadow:0 6px 28px rgba(0,0,0,.14),0 0 0 14px rgba(184,73,26,0)}}
 .hero-pill--endcue .hero-pill__word{animation:pillpulse 1.5s ease-out infinite;}
@@ -75,10 +109,31 @@ body.post-hero.hov #cd{background:var(--terra);opacity:.65}
 .about-layout{display:grid;grid-template-columns:1.2fr 0.8fr;gap:80px;align-items:start;}
 .about-p{font-family:var(--serif);font-size:clamp(18px,2vw,24px);font-weight:300;line-height:1.72;color:rgba(30,26,22,.58);margin-bottom:28px;}
 .about-p em{font-style:normal;color:var(--terra)}
-.about-creds{margin-top:36px;padding-top:24px;border-top:1px solid rgba(30,26,22,.07);display:flex;flex-direction:column;gap:12px;}
-.cred-row{display:flex;align-items:baseline;gap:16px}
-.cred-n{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(30,26,22,.22);flex-shrink:0;width:24px;}
-.cred-t{font-family:var(--serif);font-size:17px;font-weight:300;color:var(--ink)}
+
+/* ── INLINE CREDENTIALS ROW ── */
+.about-creds-inline{
+  margin-top:14px;padding-top:18px;
+  border-top:1px solid rgba(30,26,22,.07);
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+}
+.cred-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(30,26,22,.04);
+  border:1px solid rgba(30,26,22,.08);
+  border-radius:100px;
+  padding:7px 14px;
+}
+.cred-pill-icon{
+  width:16px;height:16px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.cred-pill-icon svg{width:14px;height:14px;}
+.cred-pill-text{
+  font-family:var(--sans);font-size:11px;font-weight:500;
+  letter-spacing:.01em;color:rgba(30,26,22,.55);
+  white-space:nowrap;
+}
+
 .about-photo{width:100%;aspect-ratio:3/4;background:rgba(30,26,22,.05);display:flex;align-items:flex-end;padding:20px;position:relative;border:4px solid var(--terra);overflow:hidden;box-shadow:8px 8px 0 rgba(184,73,26,.18);}
 .about-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;}
 .about-photo__label{font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(30,26,22,.28);position:relative;z-index:2;}
@@ -95,46 +150,14 @@ body.post-hero.hov #cd{background:var(--terra);opacity:.65}
 .fc{position:relative;overflow:hidden;cursor:none;background:rgba(30,26,22,.06);border-radius:3px;}
 .fc img{display:block;width:100%;height:auto;filter:saturate(0) brightness(.85) contrast(1.08);transition:filter .65s cubic-bezier(.16,1,.3,1);}
 .fc:hover img{filter:saturate(1) brightness(1) contrast(1);}
-
-
-
-
-/* frame number — top left like a real contact sheet */
-.fc-num{
-  position:absolute;top:10px;left:12px;
-  font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.16em;
-  color:rgba(30,26,22,.25);z-index:4;
-  transition:opacity .3s;
-}
+.fc-num{position:absolute;top:10px;left:12px;font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.16em;color:rgba(30,26,22,.25);z-index:4;transition:opacity .3s;}
 .fc:hover .fc-num{opacity:0;}
-
-/* annotation — slides up on hover */
-.fc-ann{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:20px 18px 16px;
-  background:linear-gradient(to top,rgba(30,26,22,.72) 0%,transparent 100%);
-  transform:translateY(100%);
-  transition:transform .45s cubic-bezier(.16,1,.3,1);
-  z-index:4;
-}
+.fc-ann{position:absolute;bottom:0;left:0;right:0;padding:20px 18px 16px;background:linear-gradient(to top,rgba(30,26,22,.72) 0%,transparent 100%);transform:translateY(100%);transition:transform .45s cubic-bezier(.16,1,.3,1);z-index:4;}
 .fc:hover .fc-ann{transform:translateY(0);}
-.fc-ann-venue{
-  font-family:var(--sans);font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--terra);display:block;margin-bottom:4px;
-}
-.fc-ann-label{
-  font-family:var(--serif);font-size:clamp(14px,1.4vw,18px);font-weight:300;
-  color:var(--cream);line-height:1.2;display:block;
-}
-/* terra line that draws across bottom on hover */
-.fc::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
-  background:var(--terra);transform:scaleX(0);transform-origin:left;
-  transition:transform .5s cubic-bezier(.16,1,.3,1);z-index:5;
-}
+.fc-ann-venue{font-family:var(--sans);font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--terra);display:block;margin-bottom:4px;}
+.fc-ann-label{font-family:var(--serif);font-size:clamp(14px,1.4vw,18px);font-weight:300;color:var(--cream);line-height:1.2;display:block;}
+.fc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--terra);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1);z-index:5;}
 .fc:hover::after{transform:scaleX(1);}
-
-/* thin grid lines between cells — like a real sheet */
 #field-sheet .fc{outline:1px solid rgba(30,26,22,.07);}
 
 #services{position:relative;min-height:100vh;background:var(--cream);overflow:hidden;padding:80px 80px 60px;display:flex;flex-direction:column}
@@ -154,23 +177,14 @@ body.post-hero.hov #cd{background:var(--terra);opacity:.65}
 .sw.expanded .sw-badge{opacity:0;transform:translateX(-50%) translateY(-4px)}
 #svc-hint{font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(30,26,22,.18);align-self:flex-end;pointer-events:none;margin-top:12px}
 #mob-pricing{display:none;}
-/* ── MOB ACCORDION (built by JS) ── */
 .macc-item{border-bottom:1px solid rgba(30,26,22,.08);}
 .macc-item:last-child{border-bottom:none;}
-.macc-hd{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 0;cursor:pointer;
-  font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.04em;
-  color:rgba(30,26,22,.45);transition:color .18s;
-}
+.macc-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 0;cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.04em;color:rgba(30,26,22,.45);transition:color .18s;}
 .macc-item.on>.macc-hd{color:var(--ink);}
 .macc-icon{font-size:20px;font-weight:300;color:var(--terra);line-height:1;flex-shrink:0;}
 .macc-bd{max-height:0;overflow:hidden;transition:max-height .38s cubic-bezier(.16,1,.3,1);}
 .macc-item.on>.macc-bd{max-height:800px;}
-.macc-row{
-  display:flex;justify-content:space-between;align-items:baseline;
-  padding:12px 0;border-bottom:1px solid rgba(30,26,22,.05);gap:16px;
-}
+.macc-row{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-bottom:1px solid rgba(30,26,22,.05);gap:16px;}
 .macc-row:last-child{border-bottom:none;}
 .macc-inner{padding:4px 0 20px;}
 .macc-n{font-family:var(--sans);font-size:13px;font-weight:300;color:rgba(30,26,22,.48);flex:1;line-height:1.4;}
@@ -213,7 +227,16 @@ body.post-hero.hov #cd{background:var(--terra);opacity:.65}
 .blog-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(30,26,22,.07);margin-bottom:1px}
 .blog-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(30,26,22,.07)}
 .bcard{background:var(--cream);padding:40px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;position:relative;overflow:hidden;transition:background .22s;min-height:280px}
-.bcard:hover{background:#E4DFD0}
+.bcard-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .55s cubic-bezier(.16,1,.3,1);z-index:0;}
+.bcard-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(30,26,22,.88) 0%,rgba(30,26,22,.55) 50%,rgba(30,26,22,.35) 100%);z-index:1;opacity:0;transition:opacity .55s cubic-bezier(.16,1,.3,1);}
+.bcard:hover .bcard-bg{opacity:1;}
+.bcard:hover .bcard-overlay{opacity:1;}
+.bcard:hover{background:var(--cream);}
+.bcard>*:not(.bcard-bg):not(.bcard-overlay){position:relative;z-index:2;}
+.bcard:hover .b-tag{color:var(--terra);}
+.bcard:hover .b-title{color:var(--cream);}
+.bcard:hover .b-sub{color:rgba(236,232,218,.65);}
+.bcard:hover .b-foot{color:rgba(236,232,218,.5);border-top-color:rgba(236,232,218,.15);}
 .bcard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--terra);transform:scaleX(0);transform-origin:left;transition:transform .34s cubic-bezier(.16,1,.3,1)}
 .bcard:hover::after{transform:scaleX(1)}
 .bcard--feat{min-height:460px;grid-row:span 2}
@@ -264,182 +287,89 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
 .fleg a{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(236,232,218,.28);text-decoration:none;margin-left:20px;transition:color .2s}
 .fleg a:hover{color:rgba(236,232,218,.7)}
 
-
-
 /* ── HAMBURGER MENU ── */
-#ham-btn{
-  display:none;
-  flex-direction:column;justify-content:center;gap:5px;
-  width:36px;height:36px;background:none;border:none;cursor:pointer;padding:4px;
-}
-#ham-btn span{
-  display:block;width:22px;height:1.5px;background:var(--ink);
-  transition:transform .25s,opacity .25s;transform-origin:center;
-}
+#ham-btn{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;background:none;border:none;cursor:pointer;padding:4px;}
+#ham-btn span{display:block;width:22px;height:1.5px;background:var(--ink);transition:transform .25s,opacity .25s;transform-origin:center;}
 #ham-btn.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
 #ham-btn.open span:nth-child(2){opacity:0;}
 #ham-btn.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
-
-#mob-drawer{
-  position:fixed;inset:0;z-index:900;
-  pointer-events:none;
-}
-#mob-drawer-bg{
-  position:absolute;inset:0;background:rgba(30,26,22,0);
-  transition:background .3s;
-}
+#mob-drawer{position:fixed;inset:0;z-index:900;pointer-events:none;}
+#mob-drawer-bg{position:absolute;inset:0;background:rgba(30,26,22,0);transition:background .3s;}
 #mob-drawer.open #mob-drawer-bg{background:rgba(30,26,22,.45);pointer-events:all;}
-#mob-drawer-panel{
-  position:absolute;top:0;right:0;bottom:0;width:72vw;max-width:280px;
-  background:var(--cream);
-  transform:translateX(100%);
-  transition:transform .35s cubic-bezier(.16,1,.3,1);
-  display:flex;flex-direction:column;padding:52px 32px 40px;
-  pointer-events:all;
-}
+#mob-drawer-panel{position:absolute;top:0;right:0;bottom:0;width:72vw;max-width:280px;background:var(--cream);transform:translateX(100%);transition:transform .35s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;padding:52px 32px 40px;pointer-events:all;}
 #mob-drawer.open #mob-drawer-panel{transform:translateX(0);}
-#mob-drawer-close{
-  position:absolute;top:16px;right:20px;
-  background:none;border:none;cursor:pointer;
-  font-family:var(--sans);font-size:18px;color:rgba(30,26,22,.4);
-}
-.mob-nav-link{
-  font-family:var(--serif);font-size:28px;font-weight:300;
-  color:var(--ink);text-decoration:none;
-  padding:12px 0;border-bottom:1px solid rgba(30,26,22,.06);
-  display:flex;align-items:center;justify-content:space-between;
-  transition:color .18s;
-}
+#mob-drawer-close{position:absolute;top:16px;right:20px;background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:18px;color:rgba(30,26,22,.4);}
+.mob-nav-link{font-family:var(--serif);font-size:28px;font-weight:300;color:var(--ink);text-decoration:none;padding:12px 0;border-bottom:1px solid rgba(30,26,22,.06);display:flex;align-items:center;justify-content:space-between;transition:color .18s;}
 .mob-nav-link:hover{color:var(--terra);}
 .mob-nav-link:last-of-type{border-bottom:none;}
 .mob-nav-num{font-family:var(--sans);font-size:10px;color:rgba(30,26,22,.2);}
-#mob-drawer-cta{
-  margin-top:auto;
-  font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  padding:14px 24px;background:var(--terra);color:var(--cream);
-  text-decoration:none;text-align:center;
-}
-
-/* hide mob-nav on desktop */
+#mob-drawer-cta{margin-top:auto;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:14px 24px;background:var(--terra);color:var(--cream);text-decoration:none;text-align:center;}
 #mob-nav{display:none;}
 
-/* ── RESPONSIVE SYSTEM ── */
-
-/* ── TABLET (≤ 900px) ── */
+/* ── RESPONSIVE ── */
 @media(max-width:900px){
-  /* hide custom cursor on touch */
-  #cur{display:none;}
-  body{cursor:auto;}
-
-  /* hide sidenav, use top nav instead */
+  #cur{display:none;}body{cursor:auto;}
   :root{--rail-w:0px;}
-  #sidenav{display:none;}
-  #page-wrap{display:block;}
-
-  /* top mobile nav */
-  #mob-nav{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:14px 20px;background:var(--cream);
-    border-bottom:1px solid rgba(30,26,22,.07);
-    position:sticky;top:0;z-index:800;
-  }
+  #sidenav{display:none;}#page-wrap{display:block;}
+  #mob-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--cream);border-bottom:1px solid rgba(30,26,22,.07);position:sticky;top:0;z-index:800;}
   #mob-nav-brand{font-family:var(--serif);font-size:17px;font-weight:300;color:var(--ink);text-decoration:none;}
   #ham-btn{display:flex;}
-
-  /* hero */
   .hero-intro__bar{padding:0 28px;}
   .hero-intro__headline{padding:0 28px;height:auto;padding-top:28px;padding-bottom:28px;}
   .hero-intro__title{font-size:clamp(36px,8vw,60px);}
   .hero-intro__axis{left:28px;right:28px;}
-
-  /* about */
   #about{padding:60px 28px 48px;}
   .about-layout{grid-template-columns:1fr;gap:0;}
   .about-layout>div:first-child{order:2;margin-top:40px;}
   .about-layout>div:last-child{order:1;max-width:260px;}
-
-  /* field */
+  .about-creds-inline{gap:8px;}
+  .cred-pill-text{font-size:10px;}
   #field{padding:60px 28px 72px;}
   #field-header{flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:36px;}
   #field-sheet{grid-template-columns:1fr 1fr;gap:6px;}
-
-  /* services */
   #services{padding:60px 28px 40px;min-height:auto;}
   #svc-stage{min-height:260px;}
-
-  /* process — vertical stack on mobile, no horizontal scroll */
   #proc-outer{height:auto !important;}
   #proc-sticky{position:relative !important;height:auto !important;overflow:visible !important;}
-  #proc-track{
-    flex-direction:column !important;
-    transform:none !important;
-    height:auto !important;
-    will-change:unset !important;
-  }
-  .proc-panel{
-    min-width:100% !important;width:100% !important;
-    height:auto !important;min-height:0 !important;
-    padding:60px 28px 60px !important;
-    position:relative !important;
-  }
-  .proc-bar{display:none;}
-  #proc-nav{display:none;}
-
-  /* pricing */
+  #proc-track{flex-direction:column !important;transform:none !important;height:auto !important;will-change:unset !important;}
+  .proc-panel{min-width:100% !important;width:100% !important;height:auto !important;min-height:0 !important;padding:60px 28px 60px !important;position:relative !important;}
+  .proc-bar{display:none;}#proc-nav{display:none;}
   #pricing{padding:60px 24px 60px;}
-  .pricing-grid{display:none !important;}
-  #mob-pricing{display:block;}
-
-  /* blog */
+  .pricing-grid{display:none !important;}#mob-pricing{display:block;}
   #blog{padding:60px 28px 60px;}
   #blog-top{flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:36px;}
-  .blog-grid{grid-template-columns:1fr;}
-  .bcard--feat{grid-row:auto;min-height:320px;}
-  .blog-row{grid-template-columns:1fr;}
-  .bcard{padding:28px;}
-
-  /* contact */
-  #contact{padding:60px 28px 60px;}
-  .cgrid{grid-template-columns:1fr;gap:48px;}
-  .frow2{grid-template-columns:1fr;}
-
-  /* footer */
-  .footer-inner{padding:52px 28px 32px;}
-  .footer-top{grid-template-columns:1fr;gap:40px;}
+  .blog-grid{grid-template-columns:1fr;}.bcard--feat{grid-row:auto;min-height:320px;}
+  .blog-row{grid-template-columns:1fr;}.bcard{padding:28px;}
+  #contact{padding:60px 28px 60px;}.cgrid{grid-template-columns:1fr;gap:48px;}.frow2{grid-template-columns:1fr;}
+  .footer-inner{padding:52px 28px 32px;}.footer-top{grid-template-columns:1fr;gap:40px;}
   #footer-big{display:none;}
 }
-
-/* ── MOBILE (≤ 600px) ── */
 @media(max-width:600px){
-  /* hero pills smaller on mobile */
-  .hero-pill__word{font-size:8px;padding:6px 14px;}
-  .hero-pill--focus .hero-pill__word{font-size:10px;padding:8px 18px;}
-  .hero-pill__category{font-size:7px;}
+  .hero-pill__word{font-size:7px;padding:5px 10px;letter-spacing:.08em;}
+  .hero-pill--focus .hero-pill__word{font-size:8px;padding:6px 12px;}
+  .hero-pill__category{font-size:6px;margin-top:4px;}
   .hero-intro__title{font-size:clamp(32px,10vw,52px);}
   .hero-intro__subtitle-main{font-size:clamp(15px,4vw,20px);}
   .hero-intro__subtitle-detail{font-size:12px;}
   .hero-btn{font-size:9px;padding:11px 20px;}
-
-  /* single col image grid on phone */
   #field-sheet{grid-template-columns:1fr;}
-
-  /* section headings */
   .sec-h{font-size:clamp(38px,11vw,72px);}
-
-  /* services words smaller */
   #svc-stage{min-height:200px;}
-
-  /* contact title */
   .ctitle{font-size:clamp(40px,11vw,72px);}
-
-  /* footer cols stack */
   .f-cols{grid-template-columns:1fr;gap:28px;}
   .footer-bot{flex-direction:column;align-items:flex-start;gap:8px;}
+  .about-creds-inline{flex-direction:column;align-items:flex-start;}
 }
-
 </style>
 </head>
 <body>
+
+<!-- ── LOADING SCREEN ── -->
+<div id="loader">
+  <p class="loader-word">Training the mind.<br><em>Because it's always on lead when competing.</em></p>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="loader-bar"></div></div>
+  <p class="loader-brand">Mind at Play</p>
+</div>
 
 <div id="spb"></div>
 <nav id="mob-nav">
@@ -462,7 +392,8 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
 </div>
 <div id="cur"><div id="cd"></div><div id="cr"></div></div>
 
-<div class="hero-intro" id="hero-outer" style="height:1100vh">
+<!-- Hero: 3 scroll lengths = 300vh -->
+<div class="hero-intro" id="hero-outer" style="height:300vh">
   <div class="hero-intro__frame">
     <div class="hero-intro__bar">
       <span class="hero-intro__brand">Mind at Play</span>
@@ -474,25 +405,24 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
           <path d="M8,72 C20,58 32,40 42,24 C50,14 58,14 66,24 C76,40 86,58 94,72" fill="none" stroke="rgba(236,232,218,0.06)" stroke-width="1.8" vector-effect="non-scaling-stroke" stroke-linecap="round"/>
           <path id="draw-curve" d="M8,72 C20,58 32,40 42,24 C50,14 58,14 66,24 C76,40 86,58 94,72" fill="none" stroke="rgba(236,232,218,0.22)" stroke-width="1" stroke-dasharray="3 4" opacity="0" vector-effect="non-scaling-stroke" stroke-linecap="round"/>
         </svg>
-        <div class="hero-pill" id="hp0" style="left:8%;top:75%;opacity:0"><div class="hero-pill__word">Anxiety</div><div class="hero-pill__category">The Battles</div></div>
-        <div class="hero-pill" id="hp1" style="left:18%;top:60%;opacity:0"><div class="hero-pill__word">Fear</div><div class="hero-pill__category">The Battles</div></div>
-        <div class="hero-pill" id="hp2" style="left:30%;top:42%;opacity:0"><div class="hero-pill__word">Drive</div><div class="hero-pill__category">The Fuel</div></div>
-        <div class="hero-pill" id="hp3" style="left:42%;top:26%;opacity:0"><div class="hero-pill__word">Hunger</div><div class="hero-pill__category">The Fuel</div></div>
-        <div class="hero-pill hero-pill--focus" id="hp4" style="left:54%;top:16%;opacity:0"><div class="hero-pill__word">Focus</div><div class="hero-pill__category">The Peak</div></div>
-        <div class="hero-pill" id="hp5" style="left:66%;top:26%;opacity:0"><div class="hero-pill__word">Pressure</div><div class="hero-pill__category">The Edge</div></div>
-        <div class="hero-pill" id="hp6" style="left:76%;top:42%;opacity:0"><div class="hero-pill__word">Resilience</div><div class="hero-pill__category">The Edge</div></div>
-        <div class="hero-pill" id="hp7" style="left:86%;top:60%;opacity:0"><div class="hero-pill__word">Burnout</div><div class="hero-pill__category">The Cost</div></div>
-        <div class="hero-pill" id="hp8" style="left:94%;top:75%;opacity:0"><div class="hero-pill__word">Sacrifice</div><div class="hero-pill__category">The Cost</div></div>
+        <div class="hero-pill" id="hp0" style="left:8%;top:75%;opacity:0;transform:translate(-50%,-50%) translateY(18px) scale(0.88)"><div class="hero-pill__word">Anxiety</div><div class="hero-pill__category">The Battles</div></div>
+        <div class="hero-pill" id="hp1" style="left:18%;top:60%;opacity:0;transform:translate(-50%,-50%) translateY(18px) scale(0.88)"><div class="hero-pill__word">Fear</div><div class="hero-pill__category">The Battles</div></div>
+        <div class="hero-pill" id="hp2" style="left:30%;top:42%;opacity:0;transform:translate(-50%,-50%) translateY(18px) scale(0.88)"><div class="hero-pill__word">Drive</div><div class="hero-pill__category">The Fuel</div></div>
+        <div class="hero-pill" id="hp3" style="left:42%;top:26%;opacity:0;transform:translate(-50%,-50%) translateY(18px) scale(0.88)"><div class="hero-pill__word">Hunger</div><div class="hero-pill__category">The Fuel</div></div>
+        <div class="hero-pill hero-pill--focus" id="hp4" style="left:54%;top:16%;opacity:0;transform:translate(-50%,-50%) translateY(18px) scale(0.88)"><div class="hero-pill__word">Focus</div><div class="hero-pill__category">The Peak</div></div>
+        <div class="hero-pill" id="hp5" style="left:66%;top:26%;opacity:0;transform:translate(-50%,-50%) translateY(18px) scale(0.88)"><div class="hero-pill__word">Pressure</div><div class="hero-pill__category">The Edge</div></div>
+        <div class="hero-pill" id="hp6" style="left:76%;top:42%;opacity:0;transform:translate(-50%,-50%) translateY(18px) scale(0.88)"><div class="hero-pill__word">Resilience</div><div class="hero-pill__category">The Edge</div></div>
+        <div class="hero-pill" id="hp7" style="left:86%;top:60%;opacity:0;transform:translate(-50%,-50%) translateY(18px) scale(0.88)"><div class="hero-pill__word">Burnout</div><div class="hero-pill__category">The Cost</div></div>
+        <div class="hero-pill" id="hp8" style="left:94%;top:75%;opacity:0;transform:translate(-50%,-50%) translateY(18px) scale(0.88)"><div class="hero-pill__word">Sacrifice</div><div class="hero-pill__category">The Cost</div></div>
         <div class="hero-intro__axis"><span>Low Arousal</span><span>↑ Performance ↑</span><span>High Arousal</span></div>
         <div class="hero-intro__axis-y">Performance</div>
-        <div id="h-scroll">↓ scroll to begin</div>
       </div>
     </div>
     <div class="hero-intro__headline">
       <div class="hero-intro__title" id="h-title" style="opacity:0;transform:translateX(-80px)">Relocating<br>Mental Fitness</div>
       <div class="hero-intro__subtitle" id="h-sub" style="opacity:0;transform:translateX(80px)">
         <span class="hero-intro__subtitle-main">Athlete mindset,&nbsp;<em>honed.</em></span>
-        <span class="hero-intro__subtitle-detail">The psychology of peak performance — pressure, focus, and everything in between.</span>
+        <span class="hero-intro__subtitle-detail">The mental side of sport. Pressure, focus, and what gets in the way when it matters most.</span>
         <div class="hero-cta-row">
           <a href="#contact" class="hero-btn hero-btn--primary">New Client &rarr;</a>
           <a href="https://calendar.google.com/appointments/schedules/AcZssZ0am1NtZlkWp11AG3ICz8AEnk_o7XygXYfyRtMqy964J4mYdVWBv_uITM_MfVVKc77B5dYayOsV" target="_blank" rel="noopener" class="hero-btn hero-btn--ghost">Already a Client &rarr;</a>
@@ -520,18 +450,50 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
 <section id="about">
   <div class="about-layout">
     <div>
-      <span class="sec-eye rv fl">The Psychologist</span>
+      <span class="sec-eye rv fl">Who is Adishri</span>
       <h2 class="sec-h rv fl d1">Adishri<br>Dubey.</h2>
-      <div class="about-body" style="margin-top:52px;">
-        <p class="about-p rv fl d2">Adishri is a sport psychologist with an <em>M.Sc. in Sport Psychology</em>. Her work translates performance science into practical mental skills — tools athletes can use under real pressure.</p>
-        <p class="about-p rv fl d2">Mind at Play exists to give athletes a dedicated space for the psychological work that <em>performance demands</em> — not as crisis support, but as preparation.</p>
-        <div class="about-creds rv fb d3">
-          <div class="cred-row"><span class="cred-n">I</span><span class="cred-t">M.Sc. Sport Psychology</span></div>
-          <div class="cred-row"><span class="cred-n">II</span><span class="cred-t">B.Sc. Psychology</span></div>
-          <div class="cred-row"><span class="cred-n">III</span><span class="cred-t">Applied Mental Performance Practitioner</span></div>
+
+      <!-- ── INLINE CREDENTIAL PILLS ── -->
+      <div class="about-creds-inline rv fl d2">
+        <!-- MSc cap icon -->
+        <div class="cred-pill">
+          <div class="cred-pill-icon">
+            <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 2L13 5.5L7 9L1 5.5L7 2Z" stroke="rgba(30,26,22,0.45)" stroke-width="1" stroke-linejoin="round"/>
+              <path d="M4 7.2V10.5C5 11.3 9 11.3 10 10.5V7.2" stroke="rgba(30,26,22,0.45)" stroke-width="1" stroke-linecap="round"/>
+              <line x1="13" y1="5.5" x2="13" y2="8.5" stroke="rgba(30,26,22,0.45)" stroke-width="1" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="cred-pill-text">M.Sc. Sport Psychology</span>
         </div>
+        <!-- BSc scroll icon -->
+        <div class="cred-pill">
+          <div class="cred-pill-icon">
+            <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="10" height="10" rx="1" stroke="rgba(30,26,22,0.45)" stroke-width="1"/>
+              <line x1="4" y1="5" x2="10" y2="5" stroke="rgba(30,26,22,0.45)" stroke-width="1" stroke-linecap="round"/>
+              <line x1="4" y1="7" x2="10" y2="7" stroke="rgba(30,26,22,0.45)" stroke-width="1" stroke-linecap="round"/>
+              <line x1="4" y1="9" x2="7.5" y2="9" stroke="rgba(30,26,22,0.45)" stroke-width="1" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="cred-pill-text">B.Sc. Psychology</span>
+        </div>
+        <!-- practitioner star icon -->
+        <div class="cred-pill">
+          <div class="cred-pill-icon">
+            <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 1.5L8.35 5.1H12.2L9.1 7.3L10.45 10.9L7 8.7L3.55 10.9L4.9 7.3L1.8 5.1H5.65L7 1.5Z" stroke="rgba(30,26,22,0.45)" stroke-width="1" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="cred-pill-text">Applied Mental Performance Practitioner</span>
+        </div>
+      </div>
+
+      <div class="about-body" style="margin-top:36px;">
+        <p class="about-p rv fl d2">Adishri is a sport psychologist with an <em>M.Sc. in Sport Psychology</em>. Her work turns performance science into practical mental skills that athletes can actually use when the pressure is on.</p>
+        <p class="about-p rv fl d2">Mind at Play is a dedicated space for the psychological work <em>sport asks of you</em>. Not crisis support. Not therapy. Preparation.</p>
         <div class="hero-cta-row rv fb d3" style="margin-top:36px">
-          <a href="#contact" class="hero-btn hero-btn--primary">Work with Adishri &rarr;</a>
+          <a href="#contact" class="hero-btn hero-btn--primary">Book a call &rarr;</a>
         </div>
       </div>
     </div>
@@ -544,17 +506,16 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
   </div>
 </section>
 
-<!-- ── IN THE FIELD — CONTACT SHEET ── -->
+<!-- ── IN THE FIELD ── -->
 <section id="field">
   <div id="field-bg-word">Field.</div>
   <div id="field-header">
     <div id="field-header-left">
       <span class="sec-eye rv fl">In the Field</span>
-      <p style="font-family:var(--serif);font-size:clamp(16px,1.6vw,21px);font-weight:300;color:rgba(30,26,22,.42);line-height:1.7;max-width:420px" class="rv fl d1">From the Bernabéu to the research floor —<br>sport psychology lived from the inside.</p>
+      <p style="font-family:var(--serif);font-size:clamp(16px,1.6vw,21px);font-weight:300;color:rgba(30,26,22,.42);line-height:1.7;max-width:420px" class="rv fl d1">From the Bernabéu to the research floor.<br>Sport psychology lived from the inside.</p>
     </div>
     <div id="field-hint" class="rv fr d2">hover to develop</div>
   </div>
-
   <div id="field-sheet">
     <div class="fc rv fb">
       <span class="fc-num">01</span>
@@ -597,7 +558,7 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
   <div id="svc-stage"></div>
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:12px">
     <div id="svc-hint">hover a word</div>
-    <a href="#contact" class="hero-btn hero-btn--primary">Explore Services &rarr;</a>
+    <a href="#contact" class="hero-btn hero-btn--primary">Work together &rarr;</a>
   </div>
 </section>
 
@@ -613,27 +574,27 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
     <div class="proc-panel" style="background:var(--cream)">
       <div class="proc-bg-n">01</div><div class="proc-step">First Contact</div>
       <div class="proc-title">A conversation,<br>not a consultation.</div>
-      <p class="proc-body">A 20-minute call. No jargon, no pressure. Just an honest conversation about where you are and whether this is the right fit.</p>
+      <p class="proc-body">20 minutes on a call. No jargon, no sales pitch. Just a straight conversation about where you are and whether working together makes sense.</p>
       <div class="proc-bar" id="pb0"></div>
     </div>
     <div class="proc-panel" style="background:#E9E4D6">
       <div class="proc-bg-n">02</div><div class="proc-step">Understanding</div>
       <div class="proc-title">We map your<br>mental landscape.</div>
-      <p class="proc-body">A deeper look at your performance patterns — where things break down, what you're carrying, what gets in the way.</p>
+      <p class="proc-body">A proper look at how you perform under pressure. Where things break down, what you carry into competition, and what gets in the way.</p>
       <div class="proc-bar" id="pb1"></div>
     </div>
     <div class="proc-panel" style="background:#DED9CA">
       <div class="proc-bg-n">03</div><div class="proc-step">The Work</div>
       <div class="proc-title">Real tools.<br>Not vague advice.</div>
-      <p class="proc-body">Concrete skills, session by session — techniques you can use at warm-up, in the locker room, mid-competition.</p>
+      <p class="proc-body">Concrete skills built session by session. Things you can use at warm-up, in the changing room, or in the middle of a game.</p>
       <div class="proc-bar" id="pb2"></div>
     </div>
     <div class="proc-panel" style="background:var(--terra)">
       <div class="proc-bg-n" style="color:rgba(236,232,218,.04)">04</div>
       <div class="proc-step" style="color:rgba(236,232,218,.5)">The Outcome</div>
       <div class="proc-title" style="color:rgba(236,232,218,.9)">Perform when<br>it counts.</div>
-      <p class="proc-body" style="color:rgba(236,232,218,.42)">Consistently showing up as your most capable self — in competition, training, and beyond sport entirely.</p>
-      <div style="margin-top:28px"><a href="#contact" class="hero-btn hero-btn--ghost" style="border-color:rgba(236,232,218,.35);color:rgba(236,232,218,.8)">Start Your Journey &rarr;</a></div>
+      <p class="proc-body" style="color:rgba(236,232,218,.42)">Performing well when it actually matters. In competition, in training, and in the parts of life that have nothing to do with sport.</p>
+      <div style="margin-top:28px"><a href="#contact" class="hero-btn hero-btn--ghost" style="border-color:rgba(236,232,218,.35);color:rgba(236,232,218,.8)">Get in touch &rarr;</a></div>
       <div class="proc-bar" id="pb3" style="background:rgba(236,232,218,.3)"></div>
     </div>
   </div>
@@ -641,7 +602,7 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
 </div>
 
 <section id="pricing">
-  <span class="sec-eye rv fl">Transparent pricing</span>
+  <span class="sec-eye rv fl">What it costs</span>
   <h2 class="sec-h rv fl d1">Pricing.</h2>
   <div class="pricing-grid rv fb d2">
     <div class="ptabs" id="ptabs-list"></div>
@@ -650,38 +611,44 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
   <div id="mob-pricing"></div>
   <div class="rv fb d3" style="margin-top:44px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
     <a href="#contact" class="hero-btn hero-btn--primary">Book a Session &rarr;</a>
-    <span style="font-family:var(--sans);font-size:11px;font-weight:300;color:rgba(30,26,22,.38)">All sessions include a free 20-min introductory call.</span>
+    <span style="font-family:var(--sans);font-size:11px;font-weight:300;color:rgba(30,26,22,.38)">Every new client starts with a free 20-minute call.</span>
   </div>
 </section>
 
 <section id="blog">
   <div id="blog-top">
-    <div><span class="sec-eye">Field Notes</span><h2 class="sec-h">On The Mind.</h2></div>
+    <div><span class="sec-eye">Writing</span><h2 class="sec-h">On the mind.</h2></div>
     <a href="#" class="blog-all-link">All writing →</a>
   </div>
   <div class="blog-grid">
     <div class="bcard bcard--feat rv fl">
+      <div class="bcard-bg" style="background-image:url('https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=900&q=80')"></div>
+      <div class="bcard-overlay"></div>
       <span class="b-tag">Performance</span>
       <div>
         <h3 class="b-title">The 3-Second Reset</h3>
-        <p class="b-sub">How elite athletes regain focus mid-competition — and the one technique you can use right now, regardless of level.</p>
+        <p class="b-sub">How elite athletes find their focus again mid-competition. One technique, usable at any level, right now.</p>
         <div class="b-foot"><span>Mar 2025 · 6 min</span><span class="b-arrow">Read →</span></div>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:1px">
       <div class="bcard rv fr">
+        <div class="bcard-bg" style="background-image:url('https://images.unsplash.com/photo-1519311965067-36d3e5f33d39?w=700&q=80')"></div>
+        <div class="bcard-overlay"></div>
         <span class="b-tag">Injury</span>
         <div>
           <h3 class="b-title">Scared to Come Back</h3>
-          <p class="b-sub">Fear of reinjury is real, valid — and workable. What the research says.</p>
+          <p class="b-sub">Fear of reinjury is real and valid. It's also something you can work through. What the research actually says.</p>
           <div class="b-foot"><span>Feb 2025 · 8 min</span><span class="b-arrow">Read →</span></div>
         </div>
       </div>
       <div class="bcard rv fr d1">
+        <div class="bcard-bg" style="background-image:url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=700&q=80')"></div>
+        <div class="bcard-overlay"></div>
         <span class="b-tag">Youth</span>
         <div>
           <h3 class="b-title">When Sport Stops Being Fun</h3>
-          <p class="b-sub">Early warning signs of burnout in young athletes — before it's too late.</p>
+          <p class="b-sub">The early signs of burnout in young athletes. What to watch for before it gets to the point of no return.</p>
           <div class="b-foot"><span>Jan 2025 · 5 min</span><span class="b-arrow">Read →</span></div>
         </div>
       </div>
@@ -689,26 +656,32 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
   </div>
   <div class="blog-row">
     <div class="bcard rv fb">
+      <div class="bcard-bg" style="background-image:url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=700&q=80')"></div>
+      <div class="bcard-overlay"></div>
       <span class="b-tag">Mindset</span>
       <div>
         <h3 class="b-title">Confidence Isn't a Feeling</h3>
-        <p class="b-sub">Why waiting to feel confident is the single biggest mistake athletes make.</p>
+        <p class="b-sub">Waiting until you feel confident is one of the most common mistakes athletes make. Here's why it backfires.</p>
         <div class="b-foot"><span>Dec 2024 · 7 min</span><span class="b-arrow">Read →</span></div>
       </div>
     </div>
     <div class="bcard rv fb d1">
+      <div class="bcard-bg" style="background-image:url('https://images.unsplash.com/photo-1536922246289-88c42f957773?w=700&q=80')"></div>
+      <div class="bcard-overlay"></div>
       <span class="b-tag">Pressure</span>
       <div>
         <h3 class="b-title">The Athlete Who Thinks Too Much</h3>
-        <p class="b-sub">Overthinking in sport — why it happens and how to get out of your own head.</p>
+        <p class="b-sub">Overthinking in sport. Why your brain does it and how to get out of your own head when it matters.</p>
         <div class="b-foot"><span>Nov 2024 · 6 min</span><span class="b-arrow">Read →</span></div>
       </div>
     </div>
     <div class="bcard rv fb d2">
+      <div class="bcard-bg" style="background-image:url('https://images.unsplash.com/photo-1547347298-4074fc3086f0?w=700&q=80')"></div>
+      <div class="bcard-overlay"></div>
       <span class="b-tag">Teams</span>
       <div>
         <h3 class="b-title">When the Dressing Room Turns</h3>
-        <p class="b-sub">What fractured team dynamics look like — and how a psychologist helps rebuild them.</p>
+        <p class="b-sub">What fractured team dynamics actually look like, and how a sport psychologist helps rebuild them.</p>
         <div class="b-foot"><span>Oct 2024 · 9 min</span><span class="b-arrow">Read →</span></div>
       </div>
     </div>
@@ -719,12 +692,12 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
   <div id="contact-bg">Talk.</div>
   <div class="cgrid">
     <div>
-      <span class="sec-eye rv fl">Get in touch</span>
+      <span class="sec-eye rv fl">Say hello</span>
       <div class="ctitle rv fl d1">Let's<br>Talk.</div>
-      <p class="cdesc rv fl d2">Whether you're an athlete, coach, parent, or team — start with a conversation.</p>
+      <p class="cdesc rv fl d2">Whether you're an athlete, a coach, a parent, or a team. Start with a conversation.</p>
       <div style="margin-top:44px;padding-top:24px;border-top:1px solid rgba(30,26,22,.07)" class="rv fl d3">
         <span class="flbl">Or email directly</span>
-        <a href="/cdn-cgi/l/email-protection#74391d1a1015000418150d5a4c341319151d185a171b19" style="font-family:var(--serif);font-size:20px;font-weight:300;color:rgba(30,26,22,.42);text-decoration:none;transition:color .2s" onmouseenter="this.style.color='var(--ink)'" onmouseleave="this.style.color='rgba(30,26,22,.42)'"><span class="__cf_email__" data-cfemail="0e4367606a6f7a7e626f7720364e69636f6762206d6163">[email&#160;protected]</span></a>
+        <a href="mailto:Mindatplay.8@gmail.com" style="font-family:var(--serif);font-size:20px;font-weight:300;color:rgba(30,26,22,.42);text-decoration:none;transition:color .2s" onmouseenter="this.style.color='var(--ink)'" onmouseleave="this.style.color='rgba(30,26,22,.42)'">Mindatplay.8@gmail.com</a>
       </div>
     </div>
     <div class="rv fr d2">
@@ -733,7 +706,7 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
         <input type="hidden" name="_captcha" value="false"/>
         <input type="hidden" name="_template" value="table"/>
         <input type="hidden" name="I am" id="chip-val" value="An Athlete"/>
-        <div style="font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(30,26,22,.2);margin-bottom:14px">I am —</div>
+        <div style="font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(30,26,22,.2);margin-bottom:14px">I am</div>
         <div class="chips">
           <button type="button" class="chip on" onclick="chp(this)">An Athlete</button>
           <button type="button" class="chip" onclick="chp(this)">A Parent</button>
@@ -744,7 +717,7 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
           <div class="fg"><label class="flbl">Name</label><input class="fin" type="text" name="Name" placeholder="Your name" required/></div>
           <div class="fg"><label class="flbl">Email</label><input class="fin" type="email" name="Email" placeholder="your@email.com" required/></div>
         </div>
-        <div class="fg"><label class="flbl">Sport &amp; what you're working on</label><textarea class="fin" name="Message" rows="3" placeholder="Tell us a little…" style="resize:none" required></textarea></div>
+        <div class="fg"><label class="flbl">Your sport and what you're working on</label><textarea class="fin" name="Message" rows="3" placeholder="Give us a sense of where you're at…" style="resize:none" required></textarea></div>
         <button type="submit" class="fsub">Send message &rarr;</button>
       </form>
     </div>
@@ -763,7 +736,7 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
         <a href="#contact" class="f-cta">Book a session →</a>
         <div class="f-nl">
           <div class="fh" style="margin-top:32px">Stay sharp</div>
-          <p style="font-family:var(--sans);font-size:11px;font-weight:300;color:rgba(236,232,218,.4);line-height:1.65;margin-bottom:6px">Short writing on mental performance, once a fortnight.</p>
+          <p style="font-family:var(--sans);font-size:11px;font-weight:300;color:rgba(236,232,218,.4);line-height:1.65;margin-bottom:6px">Short writing on the mental side of sport. Fortnightly.</p>
           <div class="f-nl-row">
             <input class="f-nl-in" type="email" placeholder="your@email.com"/>
             <button class="f-nl-btn">→</button>
@@ -799,7 +772,31 @@ footer{background:var(--hero-green);position:relative;overflow:hidden}
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+/* ── LOADING SCREEN ── */
+(function(){
+  var bar=document.getElementById('loader-bar');
+  var loader=document.getElementById('loader');
+  var w=0,done=false;
+  var fonts=['Cormorant Garamond','DM Sans'];
+  
+  function fillBar(target,speed){
+    var iv=setInterval(function(){
+      w=Math.min(target,w+speed);
+      bar.style.width=w+'%';
+      if(w>=target)clearInterval(iv);
+    },20);
+  }
+  
+  var startTime=Date.now(),MIN_SHOW=2800;
+  fillBar(55,0.6);
+  function dismiss(){var elapsed=Date.now()-startTime;var wait=Math.max(0,MIN_SHOW-elapsed);setTimeout(function(){fillBar(100,3);setTimeout(function(){loader.classList.add('out');document.body.style.overflow='';},500);},wait);}
+  document.fonts.ready.then(dismiss);
+  setTimeout(function(){loader.classList.add('out');document.body.style.overflow='';},5000);
+  document.body.style.overflow='hidden';
+})();
+
+/* ── CURSOR ── */
 const CE=document.getElementById('cur');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
@@ -810,24 +807,23 @@ document.querySelectorAll('a,button,.ptab,.sw,.bcard,.fc').forEach(el=>{
 });
 
 function eoc(t){return 1-Math.pow(1-t,3)}
-function bounce(t){const n=7.5625,d=2.75;if(t<1/d)return n*t*t;if(t<2/d){t-=1.5/d;return n*t*t+.75}if(t<2.5/d){t-=2.25/d;return n*t*t+.9375}t-=2.625/d;return n*t*t+.984375;}
 
 const heroOuter=document.getElementById('hero-outer');
 const spb=document.getElementById('spb');
+
+// Each pill has a scroll threshold (0–1) at which it permanently appears.
+// Evenly spaced across t=0.08 → t=0.85. Once shown, never hidden again.
+const PILL_THRESHOLDS=[0.08,0.17,0.26,0.35,0.44,0.53,0.62,0.71,0.80];
 const pillShown=new Array(9).fill(false);
 
-function dropPill(i){
-  if(pillShown[i])return;pillShown[i]=true;
+function showPill(i){
+  if(pillShown[i])return;
+  pillShown[i]=true;
   const el=document.getElementById('hp'+i);if(!el)return;
+  // Simple CSS transition fade+rise — no rAF loop, no glitch
+  el.style.transition='opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1)';
+  el.style.transform='translate(-50%,-50%) translateY(0px) scale(1)';
   el.style.opacity='1';
-  const s=performance.now(),dur=740;
-  (function f(now){
-    const t=Math.min(1,(now-s)/dur);
-    const b=bounce(t),e=eoc(t);
-    el.style.transform='translate(-50%,-50%) translateY('+((1-b)*-130)+'px) rotate('+((1-e)*-9)+'deg) scale('+(0.7+0.3*e)+')';
-    if(t<1)requestAnimationFrame(f);
-    else el.style.transform='translate(-50%,-50%)';
-  })(performance.now());
 }
 
 function getHP(){
@@ -835,71 +831,38 @@ function getHP(){
   return Math.max(0,Math.min(1,-r.top/(heroOuter.offsetHeight-window.innerHeight)));
 }
 
-// ── PILL WAVES: 3 scroll beats, 3 pills each, staggered one by one ──
-// Total hero scroll range for pills: t=0.08 → t=0.75
-// Divided into 3 equal waves of ~0.22 each
-// Within each wave, pills drop at 0%, 40%, 80% of that wave's range
-// So each pill needs a meaningful scroll before the next one drops
-
-// Wave 1: entire left side drops together — Anxiety(0), Fear(1), Drive(2), Hunger(3)
-// Wave 2: Focus(4) alone — the peak
-// Wave 3: entire right side drops together — Pressure(5), Resilience(6), Burnout(7), Sacrifice(8)
-const WAVES=[
-  {s:0.08, e:0.35, p:[0,1,2,3]},
-  {s:0.35, e:0.50, p:[4]},
-  {s:0.50, e:0.75, p:[5,6,7,8]},
-];
-
-// stagger within each wave — pills drop rapidly one after another on that scroll
-// left/right waves: 4 pills drop in quick succession (tight stagger)
-// focus wave: single pill, drops immediately
-
 function updateHero(){
   const t=getHP();
   document.getElementById('h-pct').textContent=String(Math.round(t*100)).padStart(2,'0')+'%';
 
-  // headline
+  // Headline slides in once, then stays fully anchored — never reverses
   const ht=document.getElementById('h-title');
-  const tp=eoc(Math.min(1,t/0.08));
-  ht.style.opacity=tp;ht.style.transform='translateX('+((1-tp)*-80)+'px)';
   const hs=document.getElementById('h-sub');
-  const sp=eoc(Math.max(0,Math.min(1,(t-0.04)/0.08)));
-  hs.style.opacity=sp;hs.style.transform='translateX('+((1-sp)*80)+'px)';
-
-  // pills — all pills in a wave drop simultaneously when wave starts
-  WAVES.forEach(w=>{
-    if(t>=w.s){
-      w.p.forEach(idx=>dropPill(idx));
-    }
-  });
-
-  const pr=Math.max(0,Math.min(1,(t-0.08)/0.70));
-  document.getElementById('draw-curve').style.opacity=Math.min(1,pr*1.4)*0.65;
-
-  // endcue pulse
-  const hp8=document.getElementById('hp8');
-  if(hp8){
-    if(t>=0.78&&t<0.90) hp8.classList.add('hero-pill--endcue');
-    else hp8.classList.remove('hero-pill--endcue');
+  if(!ht._locked){
+    const tp=eoc(Math.min(1,t/0.08));
+    ht.style.opacity=tp;
+    ht.style.transform='translateX('+((1-tp)*-80)+'px)';
+    if(tp>=1){ht._locked=true;ht.style.opacity='1';ht.style.transform='translateX(0)';}
+  }
+  if(!hs._locked){
+    const sp=eoc(Math.max(0,Math.min(1,(t-0.04)/0.08)));
+    hs.style.opacity=sp;
+    hs.style.transform='translateX('+((1-sp)*80)+'px)';
+    if(sp>=1){hs._locked=true;hs.style.opacity='1';hs.style.transform='translateX(0)';}
   }
 
-  // explosion t=0.90→1.0
-  const st=Math.max(0,Math.min(1,(t-0.90)/0.10));
-  if(st>0){
-    const se=eoc(st);
-    [[-1.4,0.8],[-1.1,-0.5],[-0.7,-1.1],[-0.3,-1.5],[0,-1.7],[0.4,-1.4],[0.9,-0.9],[1.2,0.3],[1.4,0.9]].forEach(([dx,dy],i)=>{
-      const el=document.getElementById('hp'+i);if(!el)return;
-      el.style.transform='translate(calc(-50% + '+(dx*window.innerWidth*se)+'px),calc(-50% + '+(dy*window.innerHeight*se)+'px)) scale('+Math.max(0,1-se)+')';
-      el.style.opacity=Math.max(0,1-se*1.4);
-    });
-    ht.style.opacity=Math.max(0,tp-se*2.2);
-    hs.style.opacity=Math.max(0,sp-se*2.2);
-  }
+  // Pills: check threshold, show permanently
+  PILL_THRESHOLDS.forEach((thresh,i)=>{if(t>=thresh)showPill(i);});
 
-  // frame fade
-  document.querySelector('.hero-intro__frame').style.opacity=t<0.75?1:Math.max(0,1-(t-0.75)/0.25);
+  // Curve fades in as pills appear
+  const pr=Math.max(0,Math.min(1,(t-0.05)/0.75));
+  document.getElementById('draw-curve').style.opacity=Math.min(1,pr)*0.65;
+
+  // Frame fades out only at the very end (t=0.90 → 1.0)
+  document.querySelector('.hero-intro__frame').style.opacity=t<0.90?1:Math.max(0,1-(t-0.90)/0.10);
 }
 
+/* ── SERVICES ── */
 const SVCS=[
   {label:'1:1 Coaching',sz:68,x:18,y:25,num:'01',subs:['60-min individual session','Competition prep (90 min)','4-session pack','8-session block','12-session program']},
   {label:'Competition Prep',sz:50,x:54,y:18,num:'02',subs:['Pre-event mental priming','Pressure simulation','Focus & activation routines']},
@@ -922,6 +885,7 @@ stage.addEventListener('mousemove',e=>{const r=stage.getBoundingClientRect();svc
 stage.addEventListener('mouseleave',()=>{svcMx=null;svcMy=null;document.querySelectorAll('.sw .sw-word').forEach(el=>{const w=el.closest('.sw');const base=parseFloat(w.dataset.sz);el.style.fontSize=Math.round(base*0.42)+'px';el.style.opacity='0.15';const badge=w.querySelector('.sw-badge');if(badge)badge.style.opacity='0.15';});});
 function proxUpdate(){if(svcMx===null)return;const sw=stage.offsetWidth,sh=stage.offsetHeight;const maxD=Math.sqrt(sw*sw+sh*sh)*0.5;document.querySelectorAll('.sw').forEach(w=>{if(w.classList.contains('expanded'))return;const bx=parseFloat(w.dataset.bx)/100*sw,by=parseFloat(w.dataset.by)/100*sh;const d=Math.sqrt((svcMx-bx)**2+(svcMy-by)**2);const p=Math.max(0,1-d/maxD);const base=parseFloat(w.dataset.sz);w.querySelector('.sw-word').style.fontSize=Math.round(base*(0.42+p*0.72))+'px';w.querySelector('.sw-word').style.opacity=0.15+p*0.85;const badge=w.querySelector('.sw-badge');if(badge)badge.style.opacity=0.15+p*0.85;});}
 
+/* ── PROCESS ── */
 const procOuter=document.getElementById('proc-outer'),procTrack=document.getElementById('proc-track');
 function updateProc(){
   const r=procOuter.getBoundingClientRect();const t=Math.max(0,Math.min(1,-r.top/(procOuter.offsetHeight-window.innerHeight)));const pt=t*3;
@@ -931,6 +895,7 @@ function updateProc(){
   for(let i=0;i<4;i++){const b=document.getElementById('pb'+i);if(b)b.style.width=Math.max(0,Math.min(1,pt-i+.65))*100+'%'}
 }
 
+/* ── PRICING ── */
 const PDATA=[
   {label:'Individual Athlete',items:[['1:1 Session (60 min)','₹1,200'],['Express Session (30 min)','₹800'],['Competition Prep (90 min)','₹1,800'],['4-Session Pack','₹4,400'],['8-Session Block','₹8,400'],['12-Session Program','₹12,000']]},
   {label:'Injury & Comeback',items:[['Injury Support Session','₹1,200'],['Return-to-Play Block (4)','₹4,400'],['Confidence Rebuild (6)','₹6,600'],['Fear of Reinjury Intensive (3)','₹3,200'],['Long-Term Support (8)','₹8,400']]},
@@ -981,33 +946,28 @@ onScroll();
 
 function chp(b){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));b.classList.add('on');var v=document.getElementById('chip-val');if(v)v.value=b.textContent.trim();}
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}});
+  a.addEventListener('click',e=>{const h=a.getAttribute('href');if(!h||h==='#')return;const t=document.querySelector(h);if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}});
 });
 
-// ── HAMBURGER MENU ──
+/* ── HAMBURGER ── */
 const hamBtn=document.getElementById('ham-btn');
 const mobDrawer=document.getElementById('mob-drawer');
 const drawerBg=document.getElementById('mob-drawer-bg');
 const drawerClose=document.getElementById('mob-drawer-close');
-
 function openDrawer(){mobDrawer.classList.add('open');hamBtn.classList.add('open');document.body.style.overflow='hidden';}
 function closeDrawer(){mobDrawer.classList.remove('open');hamBtn.classList.remove('open');document.body.style.overflow='';}
-
 if(hamBtn){hamBtn.addEventListener('click',openDrawer);}
 if(drawerBg){drawerBg.addEventListener('click',closeDrawer);}
 if(drawerClose){drawerClose.addEventListener('click',closeDrawer);}
-document.querySelectorAll('.mob-nav-link, #mob-drawer-cta').forEach(a=>{
-  a.addEventListener('click',()=>{closeDrawer();});
-});
+document.querySelectorAll('.mob-nav-link, #mob-drawer-cta').forEach(a=>{a.addEventListener('click',()=>{closeDrawer();});});
 
-// ── MOBILE PRICING ACCORDION ──
+/* ── MOBILE PRICING ── */
 function buildMobAcc(){
   if(window.innerWidth>900)return;
   var c=document.getElementById('mob-pricing');
   if(!c||c.children.length)return;
   document.querySelectorAll('.ptab').forEach(function(tab,i){
-    var panel=document.getElementById('pp'+i);
-    if(!panel)return;
+    var panel=document.getElementById('pp'+i);if(!panel)return;
     var label=tab.childNodes[0].textContent.trim();
     var item=document.createElement('div');item.className='macc-item';
     var hd=document.createElement('div');hd.className='macc-hd';
